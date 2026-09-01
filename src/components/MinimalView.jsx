@@ -34,19 +34,16 @@ function Go({ className = "go" }) {
   );
 }
 
-// A tiny planet with a satellite orbiting it — the badge for the Orbit Wars row.
+// A small star with two bodies orbiting it on tilted rings — the badge for the
+// Orbit Wars row. Motion is CSS (offset-path), so it runs on its own rAF and
+// stays smooth; it stills under prefers-reduced-motion.
 function Orbit() {
-  const reduce = useReducedMotion();
   return (
     <div className="orbit" aria-hidden="true">
-      <span className="planet" />
-      <motion.div
-        className="orbitpath"
-        animate={reduce ? {} : { rotate: 360 }}
-        transition={reduce ? {} : { repeat: Infinity, duration: 7, ease: "linear" }}
-      >
-        <span className="sat" />
-      </motion.div>
+      <span className="orbit-ring" />
+      <span className="orbit-star" />
+      <span className="orbit-body b1" />
+      <span className="orbit-body b2" />
     </div>
   );
 }
@@ -130,8 +127,13 @@ function CollapsibleRows({ items, initial = 4, render }) {
           ))}
       </AnimatePresence>
       {tail.length > 0 && (
-        <button type="button" className="showmore" onClick={() => setOpen((v) => !v)}>
-          <span>{open ? "Show less" : `Show ${tail.length} more`}</span>
+        <button
+          type="button"
+          className="showmore"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span className="showmore-txt">{open ? "Show less" : `View all (${tail.length} more)`}</span>
           <span className={`showmore-caret ${open ? "up" : ""}`} aria-hidden="true" />
         </button>
       )}
