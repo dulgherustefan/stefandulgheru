@@ -57,7 +57,10 @@ a { color:inherit; text-decoration:none; }
 .wrap { max-width:44rem; margin:0 auto; padding:2.4rem 1.7rem 5rem; position:relative; z-index:2; }
 
 /* ---------- sky ---------- */
-.sky { position:fixed; inset:0; z-index:0; pointer-events:none; }
+/* Anchored to the top of the page (the hero), NOT the viewport — so the moon
+   and clouds live up at the name and scroll away with the hero instead of
+   trailing the reader down the page. */
+.sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:0; pointer-events:none; }
 .cloud { position:absolute; color:var(--cloud); }
 /* Kept clear of the avatar (top-left) and the sun/moon toggle (top-right);
    sit in the empty side gutters and the upper-right gap. */
@@ -65,16 +68,10 @@ a { color:inherit; text-decoration:none; }
 .cloud.c2 { top:27%; right:4%; width:56px; opacity:.6; }
 .cloud.c3 { top:42%; left:4%; width:72px; opacity:.5; }
 
-/* Deliberately NOT nested inside .sky: .sky is position:fixed, which always
-   opens its own stacking context, so a z-index set on a child there can
-   never climb above .topbar/.wrap regardless of its number — the whole
-   .sky subtree is confined to paint together. .wrap runs edge-to-edge on
-   mobile and would sit on top and swallow every tap. Kept as a sibling with
-   its own z-index instead so it stacks above the page for real. */
-/* The sun/moon toggle: fixed at the top, sitting in the gap to the right of
-   the name — pulled in from the edge so it reads as its own object, not chrome.
-   Stays put on scroll, like the clouds. */
-.celestial { position:fixed; top:clamp(1rem,3vw,1.9rem); right:clamp(3rem,26vw,30rem);
+/* The sun/moon toggle: a sibling of .sky (its own stacking context) so its
+   z-index clears .wrap for real. Absolute at the top, in the gap to the right
+   of the name — so it belongs to the hero and scrolls away with it. */
+.celestial { position:absolute; top:clamp(1rem,3vw,1.9rem); right:clamp(3rem,26vw,30rem);
   z-index:6; width:44px; height:44px; padding:0; background:transparent; border:0;
   cursor:pointer; pointer-events:auto; line-height:0; display:grid; place-items:center; }
 .celestial-inner { display:block; width:44px; height:44px; }
@@ -171,17 +168,25 @@ a { color:inherit; text-decoration:none; }
    layout. The gutter keeps the plain rank. Positions come from framer useTime
    (JS transforms); this file only styles the bodies and the faint orbit ring.
    The 560x180 field is centered on the row and scales down on small screens. */
+/* Two centred layers, sized to the row and measured in JS. Neither uses a
+   transform (that would trap z-index in a new stacking context): centring is
+   left:0;right:0;margin-inline:auto. The back layer (z-index:0) holds the ring,
+   tail and moon, always behind the text (z-index:2). The front layer keeps
+   z-index:auto, so the planet's own z-index (set per frame to 1 on the far arc,
+   3 on the near arc) interleaves with the text — it threads through 288 and the
+   title as it orbits. */
 .row.has-field { position:relative; }
-.row.has-field .gut, .row.has-field .rbody { position:relative; z-index:1; }
-.orbitfield { position:absolute; top:50%; left:50%; width:560px; height:180px;
-  transform:translate(-50%,-50%) rotate(-7deg); pointer-events:none; z-index:0; }
-.of-orbit { position:absolute; left:32px; top:8px; width:496px; height:164px;
-  border:1px dashed var(--line-2); border-radius:50%; opacity:.22; }
+.row.has-field .gut, .row.has-field .rbody { position:relative; z-index:2; }
+.orbitfield { position:absolute; left:0; right:0; margin-inline:auto; top:50%;
+  width:min(560px,116%); height:184px; margin-top:-92px; pointer-events:none; }
+.orbitfield.of-back { z-index:0; }
+.orbitfield.of-front { z-index:auto; }
+.of-orbit { position:absolute; left:4%; top:6%; width:92%; height:88%;
+  border:1px dashed var(--line-2); border-radius:50%; opacity:.22; transform:rotate(-7deg); }
 .of-b { position:absolute; top:0; left:0; border-radius:50%; will-change:transform; }
 .of-main { background:radial-gradient(circle at 34% 30%, #ffd99b 0%, #f2963f 55%, #c25e1c 100%); }
 .of-t { background:#f2a558; }
 .of-moon { background:var(--accent); box-shadow:0 0 5px var(--accent-soft); }
-@media (max-width:760px) { .orbitfield { transform:translate(-50%,-50%) rotate(-7deg) scale(.6); } }
 /* Gutter label: status / medal / rank, in the accent so it reads first. */
 .gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
 .gsub { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint); margin-top:.4rem; }
@@ -206,9 +211,15 @@ a { color:inherit; text-decoration:none; }
 /* ---------- tokyo horizon ---------- */
 .horizon { width:100vw; margin-left:calc(50% - 50vw); margin-top:2.5rem; margin-bottom:-2.5rem;
   color:var(--cloud); line-height:0; pointer-events:none; }
-.horizon svg { display:block; width:100%; height:clamp(56px, 9vw, 96px); }
-.hz-city { opacity:.42; }
-.hz-tower { opacity:.7; }
+.horizon svg { display:block; width:100%; height:clamp(74px, 11vw, 136px); }
+.hz-glow { opacity:.6; }
+.hz-fuji { fill:currentColor; opacity:.3; }
+.hz-snow { fill:#fdfdff; opacity:.55; }
+.hz-back { fill:currentColor; opacity:.24; }
+.hz-city { fill:currentColor; opacity:.5; }
+.hz-win { fill:#ffd27a; opacity:.85; }
+.hz-tower { fill:#e58c4a; opacity:.85; }
+.hz-beacon { fill:#ff5f5f; }
 
 /* ---------- languages ---------- */
 .langs { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.6rem; }
