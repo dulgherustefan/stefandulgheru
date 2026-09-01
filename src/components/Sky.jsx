@@ -1,56 +1,37 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Fluffy multi-lobe cumulus: base tone (theme --cloud) with a soft top-left
-// highlight and a bottom shadow rim for form, following pixel-cloud practice.
+// Soft rounded cumulus: bumpy top, flat bottom, a lighter crown and a faint
+// underside shade so it reads as a fluffy cloud rather than a flat blob.
 function Cloud() {
   return (
-    <svg viewBox="0 0 20 13" shapeRendering="crispEdges" aria-hidden="true" width="100%">
-      <g fill="currentColor">
-        <rect x="7" y="2" width="4" height="1" />
-        <rect x="5" y="3" width="7" height="1" />
-        <rect x="4" y="4" width="10" height="1" />
-        <rect x="14" y="5" width="4" height="1" />
-        <rect x="3" y="5" width="11" height="1" />
-        <rect x="2" y="6" width="16" height="1" />
-        <rect x="1" y="7" width="17" height="1" />
-        <rect x="1" y="8" width="17" height="1" />
-        <rect x="2" y="9" width="15" height="1" />
-      </g>
-      <g fill="#ffffff" opacity="0.5">
-        <rect x="7" y="2" width="3" height="1" />
-        <rect x="5" y="3" width="3" height="1" />
-        <rect x="4" y="4" width="2" height="1" />
-        <rect x="3" y="5" width="2" height="1" />
-        <rect x="2" y="6" width="2" height="1" />
-      </g>
-      <g fill="#000000" opacity="0.14">
-        <rect x="2" y="9" width="15" height="1" />
-        <rect x="1" y="8" width="2" height="1" />
-        <rect x="15" y="8" width="3" height="1" />
-      </g>
+    <svg viewBox="0 0 48 28" aria-hidden="true" width="100%">
+      <path
+        fill="currentColor"
+        d="M8 27C3.6 27 0 23.6 0 19.3c0-4 3.1-7.2 7-7.5C14.4 4.9 16 4 19 4c3 0 5.6 1.6 7 4 1.2-.8 2.6-1.2 4.2-1.2 4 0 7.3 3 7.8 6.9 5.2.2 9 3 9 7.2 0 3.9-3.3 6.1-7.4 6.1H8Z"
+      />
+      <path
+        fill="#ffffff"
+        opacity="0.5"
+        d="M19 4c3 0 5.6 1.6 7 4-2.3.5-4.2 2-5.2 4-1-1.4-2.7-2.3-4.6-2.3-1 0-2 .3-2.8.7C14.4 4.9 16 4 19 4Z"
+      />
+      <path fill="#0b1020" opacity="0.10" d="M8 27h31.6c-1 .6-2.3.9-3.6.9H8c-2.3 0-4.4-.9-5.9-2.4C3.4 26.4 5.5 27 8 27Z" />
     </svg>
   );
 }
 
-// Smaller, rounder puff.
+// Smaller companion puff, same construction.
 function Puff() {
   return (
-    <svg viewBox="0 0 14 9" shapeRendering="crispEdges" aria-hidden="true" width="100%">
-      <g fill="currentColor">
-        <rect x="5" y="2" width="3" height="1" />
-        <rect x="3" y="3" width="7" height="1" />
-        <rect x="2" y="4" width="10" height="1" />
-        <rect x="1" y="5" width="12" height="1" />
-        <rect x="2" y="6" width="10" height="1" />
-      </g>
-      <g fill="#ffffff" opacity="0.5">
-        <rect x="5" y="2" width="2" height="1" />
-        <rect x="3" y="3" width="2" height="1" />
-        <rect x="2" y="4" width="2" height="1" />
-      </g>
-      <g fill="#000000" opacity="0.14">
-        <rect x="2" y="6" width="10" height="1" />
-      </g>
+    <svg viewBox="0 0 34 20" aria-hidden="true" width="100%">
+      <path
+        fill="currentColor"
+        d="M6 19C2.7 19 0 16.5 0 13.4c0-2.9 2.3-5.3 5.3-5.5C6.7 3.6 9.2 2 12.2 2c2.7 0 5 1.3 6.4 3.3.9-.5 2-.8 3.1-.8 3 0 5.5 2.2 5.9 5.1 3.7.2 6.4 2.2 6.4 5.2 0 2.8-2.4 4.2-5.4 4.2H6Z"
+      />
+      <path
+        fill="#ffffff"
+        opacity="0.5"
+        d="M12.2 2c2.7 0 5 1.3 6.4 3.3-1.7.4-3.1 1.5-3.9 3-.8-1-2-1.7-3.4-1.7-.8 0-1.5.2-2.1.5C6.7 3.6 9.2 2 12.2 2Z"
+      />
     </svg>
   );
 }
@@ -61,25 +42,23 @@ function Moon() {
   return (
     <svg viewBox="0 0 40 40" aria-hidden="true" width="100%">
       <defs>
-        <radialGradient id="mFace" cx="38%" cy="34%" r="72%">
-          <stop offset="0%" stopColor="#fdfbf0" />
-          <stop offset="55%" stopColor="#efe9d6" />
-          <stop offset="100%" stopColor="#d8cdb2" />
+        <radialGradient id="mFace" cx="36%" cy="32%" r="75%">
+          <stop offset="0%" stopColor="#ffffff" />
+          <stop offset="60%" stopColor="#f6f4ec" />
+          <stop offset="100%" stopColor="#e4dfd0" />
         </radialGradient>
-        <radialGradient id="mShade" cx="72%" cy="70%" r="60%">
+        <radialGradient id="mShade" cx="74%" cy="72%" r="62%">
           <stop offset="0%" stopColor="#000000" stopOpacity="0" />
-          <stop offset="100%" stopColor="#3a3320" stopOpacity="0.28" />
+          <stop offset="100%" stopColor="#2b2a22" stopOpacity="0.18" />
         </radialGradient>
       </defs>
       <circle cx="20" cy="20" r="14" fill="url(#mFace)" />
       <circle cx="20" cy="20" r="14" fill="url(#mShade)" />
-      <g fill="#cdbf9f" opacity="0.55">
-        <circle cx="15" cy="15" r="2.4" />
-        <circle cx="25" cy="22" r="3.1" />
-        <circle cx="18.5" cy="27" r="1.7" />
-        <circle cx="27" cy="13.5" r="1.3" />
+      <g fill="#d9d3c2" opacity="0.4">
+        <circle cx="15" cy="15" r="2.2" />
+        <circle cx="25" cy="22" r="2.8" />
+        <circle cx="18.5" cy="27" r="1.5" />
       </g>
-      <circle cx="20" cy="20" r="13.4" fill="none" stroke="#fffdf4" strokeOpacity="0.5" strokeWidth="0.8" />
     </svg>
   );
 }
@@ -149,18 +128,15 @@ export default function Sky({ theme, onToggleTheme }) {
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         title={isDark ? "Light mode" : "Dark mode"}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={isDark ? "moon" : "sun"}
-            className="celestial-inner"
-            initial={reduce ? false : { scale: 0.5, opacity: 0, rotate: -30 }}
-            animate={{ scale: 1, opacity: 1, rotate: 0 }}
-            exit={reduce ? { opacity: 0 } : { scale: 0.5, opacity: 0, rotate: 30 }}
-            transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
-          >
-            {isDark ? <Moon /> : <Sun />}
-          </motion.span>
-        </AnimatePresence>
+        <motion.span
+          key={isDark ? "moon" : "sun"}
+          className="celestial-inner"
+          initial={reduce ? false : { scale: 0.55, opacity: 0, rotate: -35 }}
+          animate={{ scale: 1, opacity: 1, rotate: 0 }}
+          transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }}
+        >
+          {isDark ? <Moon /> : <Sun />}
+        </motion.span>
       </button>
     </>
   );
