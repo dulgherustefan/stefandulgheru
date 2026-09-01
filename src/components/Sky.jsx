@@ -136,26 +136,39 @@ export default function Sky({ theme, onToggleTheme }) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Sibling of .sky, not a child of it — see .celestial's CSS comment. */}
+      {/* Sibling of .sky, not a child of it — see .switch's CSS comment. */}
       <button
         type="button"
-        className="celestial"
+        className="switch"
+        role="switch"
+        aria-checked={!isDark}
         onClick={onToggleTheme}
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         title={isDark ? "Light mode" : "Dark mode"}
       >
-        <AnimatePresence mode="wait" initial={false}>
+        <span className="switch-track" aria-hidden="true">
+          <span className="switch-star s1" />
+          <span className="switch-star s2" />
+          <span className="switch-star s3" />
           <motion.span
-            key={isDark ? "moon" : "sun"}
-            initial={reduce ? false : { rotate: -90, scale: 0.4, opacity: 0 }}
-            animate={{ rotate: 0, scale: 1, opacity: 1 }}
-            exit={reduce ? { opacity: 0 } : { rotate: 90, scale: 0.4, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.2, 0.7, 0.2, 1] }}
-            className="celestial-inner"
+            className="switch-knob"
+            animate={{ x: isDark ? 0 : 32 }}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 520, damping: 30 }}
           >
-            {isDark ? <Moon /> : <Sun />}
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.span
+                key={isDark ? "moon" : "sun"}
+                initial={reduce ? false : { scale: 0.4, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={reduce ? { opacity: 0 } : { scale: 0.4, opacity: 0 }}
+                transition={{ duration: 0.22, ease: [0.2, 0.7, 0.2, 1] }}
+                className="switch-ic"
+              >
+                {isDark ? <Moon /> : <Sun />}
+              </motion.span>
+            </AnimatePresence>
           </motion.span>
-        </AnimatePresence>
+        </span>
       </button>
     </>
   );
