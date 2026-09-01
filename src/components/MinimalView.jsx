@@ -34,28 +34,31 @@ function Go({ className = "go" }) {
   );
 }
 
-// A small star with two bodies orbiting it on tilted rings — the badge for the
-// Orbit Wars row. Motion is CSS (offset-path), so it runs on its own rAF and
-// stays smooth; it stills under prefers-reduced-motion.
-function Orbit() {
+// An ambient planet (with a comet tail) that orbits the whole Orbit Wars row on
+// a wide ellipse, sweeping above and below the listing without touching the
+// layout. Same idea as Magic UI's "Orbiting Circles", done in plain CSS
+// (offset-path) so it runs on its own compositor rAF. Stills under reduced
+// motion. Sits behind the text (see .orbitfield z-index).
+function OrbitField() {
   return (
-    <div className="orbit" aria-hidden="true">
-      <span className="orbit-ring" />
-      <span className="orbit-star" />
-      <span className="orbit-body b1" />
-      <span className="orbit-body b2" />
+    <div className="orbitfield" aria-hidden="true">
+      <span className="of-orbit" />
+      <span className="of-body of-t3" />
+      <span className="of-body of-t2" />
+      <span className="of-body of-t1" />
+      <span className="of-body of-planet" />
     </div>
   );
 }
 
 // One list row: an accent stat in the gutter, a title that links straight to
 // the primary destination, then any extra links below (code, write-ups, etc.).
-function Row({ gtop, gsub, name, desc, primary, extras = [], emblem = null, i }) {
+function Row({ gtop, gsub, name, desc, primary, extras = [], field = null, i }) {
   return (
     <Reveal i={i}>
-      <article className="row">
+      <article className={`row${field ? " has-field" : ""}`}>
+        {field}
         <div className="gut">
-          {emblem}
           <div className="gtop">{gtop}</div>
           {gsub ? <div className="gsub">{gsub}</div> : null}
         </div>
@@ -191,7 +194,7 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
-              emblem={c.orbit ? <Orbit /> : null}
+              field={c.orbit ? <OrbitField /> : null}
             />
           )}
         />
