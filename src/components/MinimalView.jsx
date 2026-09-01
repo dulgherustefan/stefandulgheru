@@ -1,4 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { profile, work, competitions, conferences, languages, links } from "../data.js";
 import { Arrow, Avatar, Bio } from "./Bits.jsx";
 import GithubGraph from "./GithubGraph.jsx";
@@ -103,6 +104,41 @@ function ElsewhereLink({ l }) {
 const primaryOf = (item) => (item.links ? item.links[0] : item.link) || null;
 const extrasOf = (item) => (item.links ? item.links.slice(1) : []);
 
+// Renders the first `initial` items, then hides the rest behind a toggle that
+// expands them in place below. No-op button when everything already fits.
+function CollapsibleRows({ items, initial = 4, render }) {
+  const reduce = useReducedMotion();
+  const [open, setOpen] = useState(false);
+  const head = items.slice(0, initial);
+  const tail = items.slice(initial);
+
+  return (
+    <div className="rows">
+      {head.map((item, i) => render(item, i))}
+      <AnimatePresence initial={false}>
+        {open &&
+          tail.map((item, i) => (
+            <motion.div
+              key={item.id}
+              initial={reduce ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+              transition={{ duration: 0.32, ease: [0.2, 0.7, 0.2, 1] }}
+            >
+              {render(item, initial + i)}
+            </motion.div>
+          ))}
+      </AnimatePresence>
+      {tail.length > 0 && (
+        <button type="button" className="showmore" onClick={() => setOpen((v) => !v)}>
+          <span>{open ? "Show less" : `Show ${tail.length} more`}</span>
+          <span className={`showmore-caret ${open ? "up" : ""}`} aria-hidden="true" />
+        </button>
+      )}
+    </div>
+  );
+}
+
 export default function MinimalView() {
   return (
     <div className="minimal">
@@ -140,8 +176,10 @@ export default function MinimalView() {
 
       <section className="sec" aria-labelledby="comp-h">
         <Eyebrow>Competitions &amp; awards</Eyebrow>
-        <div className="rows">
-          {competitions.map((c, i) => (
+        <CollapsibleRows
+          items={competitions}
+          initial={4}
+          render={(c, i) => (
             <Row
               key={c.id}
               i={i}
@@ -153,8 +191,8 @@ export default function MinimalView() {
               extras={extrasOf(c)}
               emblem={c.orbit ? <Orbit /> : null}
             />
-          ))}
-        </div>
+          )}
+        />
       </section>
 
       <section className="sec" aria-labelledby="conf-h">
