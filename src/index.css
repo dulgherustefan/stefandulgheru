@@ -159,15 +159,10 @@ a { color:inherit; text-decoration:none; }
 .row { display:grid; grid-template-columns:8rem 1fr; column-gap:2rem; padding:1.3rem 0;
   border-top:1px solid var(--line); align-items:start; }
 .row:first-child { border-top:0; padding-top:0; }
-.row:hover .rlink { color:var(--accent); }
-.row:hover .rlink .go { transform:translateX(3px); }
+.row:hover .rlink .go { transform:translateX(2px) scale(1.3); }
+.row:hover .rlink > span::after { transform:scaleX(1); }
 
 .gut { min-width:0; }
-/* Orbit-Wars ambient system: a planet + comet tail + little moon sweep a wide
-   tilted ellipse around the whole row, behind the text, without shifting any
-   layout. The gutter keeps the plain rank. Positions come from framer useTime
-   (JS transforms); this file only styles the bodies and the faint orbit ring.
-   The 560x180 field is centered on the row and scales down on small screens. */
 /* Gutter label: status / medal / rank, in the accent so it reads first. */
 .gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
 .gsub { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint); margin-top:.4rem; }
@@ -175,12 +170,16 @@ a { color:inherit; text-decoration:none; }
 .rbody { min-width:0; }
 .rname { font-family:var(--display); font-weight:600; font-size:14.5px; color:var(--fg); line-height:1.25;
   letter-spacing:-.005em; margin:0; }
-/* Title is the primary link: whole name + a right arrow that nudges on hover. */
-.rlink { display:inline-flex; align-items:center; gap:.45ch; color:var(--fg); transition:color .16s ease; }
-.rlink:hover { color:var(--accent); }
+/* Title is the primary link: on hover the arrow grows and an underline sweeps
+   in under the name — no colour change. */
+.rlink { display:inline-flex; align-items:center; gap:.45ch; color:var(--fg); }
+.rlink > span { position:relative; }
+.rlink > span::after { content:""; position:absolute; left:0; right:0; bottom:-2px; height:1.5px;
+  background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .22s ease; }
+.rlink:hover > span::after { transform:scaleX(1); }
 .go { width:13px; height:13px; flex:none; transition:transform .18s ease; }
 .go.sm { width:11px; height:11px; }
-.rlink:hover .go { transform:translateX(3px); }
+.rlink:hover .go { transform:translateX(2px) scale(1.3); }
 .rdesc { color:var(--muted); font-size:13px; line-height:1.4; margin:.4rem 0 0; }
 /* Extra links (code, write-ups): accent, below the description. */
 .rmeta { margin-top:.55rem; display:flex; flex-wrap:wrap; gap:.35rem 1rem; align-items:center;
