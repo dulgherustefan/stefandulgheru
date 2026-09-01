@@ -29,12 +29,14 @@ export default function App() {
     const next = themeRef.current === "dark" ? "light" : "dark";
     const root = document.documentElement;
 
-    // Light spreads FROM the toggle: a circular reveal centered on the moon/sun.
+    // Origin = the center of the toggle, so the new theme opens out of the moon.
     const rect = e?.currentTarget?.getBoundingClientRect?.();
-    if (rect) {
-      root.style.setProperty("--vt-x", `${rect.left + rect.width / 2}px`);
-      root.style.setProperty("--vt-y", `${rect.top + rect.height / 2}px`);
-    }
+    const x = rect ? rect.left + rect.width / 2 : window.innerWidth - 80;
+    const y = rect ? rect.top + rect.height / 2 : 40;
+    root.style.setProperty("--vt-x", `${x}px`);
+    root.style.setProperty("--vt-y", `${y}px`);
+    // Rim colour of the expanding light circle, warm turning on / cool going dark.
+    root.style.setProperty("--vt-glow", next === "light" ? "rgba(255,214,140,.65)" : "rgba(150,170,255,.55)");
 
     const apply = () => setTheme(next);
 
@@ -43,12 +45,9 @@ export default function App() {
       return;
     }
 
-    // The new theme is what expands into view, so reveal the *incoming* snapshot.
     root.classList.add("vt-reveal");
     try {
       const t = document.startViewTransition(() => flushSync(apply));
-      // Both promises reject if the transition is aborted (tab hidden, overlap);
-      // swallow them so nothing surfaces as an uncaught rejection.
       if (t.ready) t.ready.catch(() => {});
       t.finished.catch(() => {}).then(() => root.classList.remove("vt-reveal"));
     } catch (err) {
