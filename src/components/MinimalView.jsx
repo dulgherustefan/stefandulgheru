@@ -34,67 +34,34 @@ function Go({ className = "go" }) {
   );
 }
 
-// Orbit-Wars ambient system. A planet runs a wide, tilted, non-uniform ellipse
-// around the whole row: it lingers on the far arc and whips through the near
-// one (a Kepler-ish speed term), threading in FRONT of the rank and title on
-// the near pass and BEHIND them on the far pass (per-frame z-index). A comet
-// tail trails it and a little moon circles it. Depth (scale + glow) is faked
-// from the orbit angle so the flat ellipse reads as 3D. Geometry is measured
-// from the row so it stays sane on any width; motion runs on framer's useTime
-// without re-rendering React, and stills under reduced motion.
+// A single planet on a tidy, tilted orbit around the rank number ("288th"): a
+// faint ring for context, a warm planet with a soft glow, and a touch of depth
+// — it grows and passes in FRONT of the number on the near arc, shrinks and
+// slips BEHIND it on the far arc (per-frame z-index). Geometry is measured from
+// the number so the ring always hugs it. Motion runs on framer's useTime and
+// stills under reduced motion. Restrained on purpose: one body, no clutter.
 const TAU = Math.PI * 2;
-const PERIOD = 9600;
-const TILT = -7 * (Math.PI / 180);
-const COS_T = Math.cos(TILT);
-const SIN_T = Math.sin(TILT);
-const STILL = 2600; // frozen phase under reduced motion, tail still reads as a comet
+const BADGE_PERIOD = 6400;
+const BADGE_TILT = -15 * (Math.PI / 180);
+const BC = Math.cos(BADGE_TILT);
+const BS = Math.sin(BADGE_TILT);
+const BADGE_STILL = 3400;
 
-const depth = (near) => 0.5 + 0.62 * near; // near in [0,1]; near arc = larger
-
-// θ with a non-uniform speed term, plus the ellipse point rotated by the tilt.
-function place(v, reduce, lag, geo, size) {
-  const raw = (((reduce ? STILL : v) - lag) / PERIOD) * TAU;
-  const th = raw + 0.55 * Math.sin(raw);
+function badgePlace(v, reduce, geo, size) {
+  const th = ((reduce ? BADGE_STILL : v) / BADGE_PERIOD) * TAU;
   const ex = geo.rx * Math.cos(th);
   const ey = geo.ry * Math.sin(th);
-  const x = geo.cx + ex * COS_T - ey * SIN_T - size / 2;
-  const y = geo.cy + ex * SIN_T + ey * COS_T - size / 2;
+  const x = geo.cx + ex * BC - ey * BS - size / 2;
+  const y = geo.cy + ex * BS + ey * BC - size / 2;
   const near = 0.5 + 0.5 * Math.sin(th); // 1 at the bottom (front), 0 at the top
   return { x, y, near };
 }
 
-function OrbitBody({ t, reduce, geo, lag, size, opacity, kind }) {
-  const x = useTransform(t, (v) => place(v, reduce, lag, geo, size).x);
-  const y = useTransform(t, (v) => place(v, reduce, lag, geo, size).y);
-  const scale = useTransform(t, (v) => depth(place(v, reduce, lag, geo, size).near));
-  const zIndex = useTransform(t, (v) => (place(v, reduce, lag, geo, size).near > 0.5 ? 3 : 1));
-  const boxShadow = useTransform(t, (v) => {
-    const n = place(v, reduce, lag, geo, size).near;
-    return `0 0 ${8 + n * 14}px rgba(243,150,70,${0.38 + n * 0.44}), 0 0 3px rgba(255,226,182,.9)`;
-  });
-  const style = { x, y, scale, width: size, height: size, opacity };
-  if (kind === "main") { style.boxShadow = boxShadow; style.zIndex = zIndex; }
-  return <motion.span className={`of-b of-${kind}`} style={style} />;
-}
-
-function OrbitMoon({ t, reduce, geo }) {
-  const size = 5;
-  const x = useTransform(t, (v) => {
-    const p = place(v, reduce, 0, geo, size);
-    return p.x + 15 * Math.cos(((reduce ? STILL : v) / 1500) * TAU);
-  });
-  const y = useTransform(t, (v) => {
-    const p = place(v, reduce, 0, geo, size);
-    return p.y + 9 * Math.sin(((reduce ? STILL : v) / 1500) * TAU);
-  });
-  const scale = useTransform(t, (v) => depth(place(v, reduce, 0, geo, size).near));
-  return <motion.span className="of-b of-moon" style={{ x, y, scale, width: size, height: size }} />;
-}
-
-// Measures its own box so the ellipse fits whatever width the row has.
-function useGeo() {
+function OrbitBadge() {
+  const reduce = useReducedMotion();
+  const t = useTime();
   const ref = useRef(null);
-  const [box, setBox] = useState({ w: 560, h: 184 });
+  const [box, setBox] = useState({ w: 58, h: 18 });
   useLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -104,27 +71,26 @@ function useGeo() {
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
-  const geo = { cx: box.w / 2, cy: box.h / 2, rx: box.w * 0.46, ry: box.h * 0.44 };
-  return { ref, geo };
-}
 
-function OrbitField() {
-  const reduce = useReducedMotion();
-  const t = useTime();
-  const { ref, geo } = useGeo();
+  const size = 7;
+  const geo = { cx: box.w / 2, cy: box.h / 2, rx: box.w / 2 + 17, ry: box.h / 2 + 12 };
+  const x = useTransform(t, (v) => badgePlace(v, reduce, geo, size).x);
+  const y = useTransform(t, (v) => badgePlace(v, reduce, geo, size).y);
+  const scale = useTransform(t, (v) => 0.82 + 0.3 * badgePlace(v, reduce, geo, size).near);
+  const zIndex = useTransform(t, (v) => (badgePlace(v, reduce, geo, size).near > 0.5 ? 2 : 0));
+  const boxShadow = useTransform(t, (v) => {
+    const n = badgePlace(v, reduce, geo, size).near;
+    return `0 0 ${5 + n * 8}px rgba(243,150,70,${0.38 + n * 0.42})`;
+  });
+
   return (
-    <>
-      <div className="orbitfield of-back" ref={ref} aria-hidden="true">
-        <span className="of-orbit" />
-        <OrbitBody t={t} reduce={reduce} geo={geo} lag={920} size={5} opacity={0.16} kind="t" />
-        <OrbitBody t={t} reduce={reduce} geo={geo} lag={600} size={7} opacity={0.32} kind="t" />
-        <OrbitBody t={t} reduce={reduce} geo={geo} lag={300} size={10} opacity={0.55} kind="t" />
-        <OrbitMoon t={t} reduce={reduce} geo={geo} />
-      </div>
-      <div className="orbitfield of-front" aria-hidden="true">
-        <OrbitBody t={t} reduce={reduce} geo={geo} lag={0} size={15} opacity={1} kind="main" />
-      </div>
-    </>
+    <span className="obadge" ref={ref} aria-hidden="true">
+      <span
+        className="ob-ring"
+        style={{ width: geo.rx * 2, height: geo.ry * 2, left: geo.cx - geo.rx, top: geo.cy - geo.ry }}
+      />
+      <motion.span className="ob-planet" style={{ x, y, scale, zIndex, boxShadow, width: size, height: size }} />
+    </span>
   );
 }
 
@@ -134,9 +100,15 @@ function Row({ gtop, gsub, name, desc, primary, extras = [], field = null, i }) 
   return (
     <Reveal i={i}>
       <article className={`row${field ? " has-field" : ""}`}>
-        {field}
         <div className="gut">
-          <div className="gtop">{gtop}</div>
+          {field ? (
+            <span className="gorbit">
+              <span className="gtop">{gtop}</span>
+              {field}
+            </span>
+          ) : (
+            <div className="gtop">{gtop}</div>
+          )}
           {gsub ? <div className="gsub">{gsub}</div> : null}
         </div>
         <div className="rbody">
@@ -271,7 +243,7 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
-              field={c.orbit ? <OrbitField /> : null}
+              field={c.orbit ? <OrbitBadge /> : null}
             />
           )}
         />
