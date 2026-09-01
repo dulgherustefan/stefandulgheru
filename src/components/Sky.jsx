@@ -1,37 +1,48 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Soft rounded cumulus: bumpy top, flat bottom, a lighter crown and a faint
-// underside shade so it reads as a fluffy cloud rather than a flat blob.
+// Chunky pixel cumulus: a stepped-block silhouette (like the sun) with a
+// lighter crown band and a darker underside band for form. Crisp edges keep
+// it reading as pixel art rather than a soft blob.
 function Cloud() {
+  const base = [
+    [2, 7, 4], [3, 5, 7], [4, 4, 10], [5, 14, 4], [5, 3, 11],
+    [6, 2, 16], [7, 1, 17], [8, 1, 17], [9, 2, 15],
+  ];
+  const light = [[2, 7, 3], [3, 5, 3], [4, 4, 2], [5, 3, 2], [6, 2, 2]];
+  const shade = [[8, 1, 2], [8, 15, 3], [9, 2, 15]];
   return (
-    <svg viewBox="0 0 48 28" aria-hidden="true" width="100%">
-      <path
-        fill="currentColor"
-        d="M8 27C3.6 27 0 23.6 0 19.3c0-4 3.1-7.2 7-7.5C14.4 4.9 16 4 19 4c3 0 5.6 1.6 7 4 1.2-.8 2.6-1.2 4.2-1.2 4 0 7.3 3 7.8 6.9 5.2.2 9 3 9 7.2 0 3.9-3.3 6.1-7.4 6.1H8Z"
-      />
-      <path
-        fill="#ffffff"
-        opacity="0.5"
-        d="M19 4c3 0 5.6 1.6 7 4-2.3.5-4.2 2-5.2 4-1-1.4-2.7-2.3-4.6-2.3-1 0-2 .3-2.8.7C14.4 4.9 16 4 19 4Z"
-      />
-      <path fill="#0b1020" opacity="0.10" d="M8 27h31.6c-1 .6-2.3.9-3.6.9H8c-2.3 0-4.4-.9-5.9-2.4C3.4 26.4 5.5 27 8 27Z" />
+    <svg viewBox="0 0 20 13" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+      <g fill="currentColor">
+        {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#ffffff" opacity="0.55">
+        {light.map(([y, x, w], i) => <rect key={`l${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#0b1020" opacity="0.14">
+        {shade.map(([y, x, w], i) => <rect key={`s${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
     </svg>
   );
 }
 
-// Smaller companion puff, same construction.
+// Smaller companion puff, same pixel construction, scaled down.
 function Puff() {
+  const base = [
+    [2, 5, 3], [3, 3, 7], [4, 2, 10], [5, 1, 12], [6, 2, 10],
+  ];
+  const light = [[2, 5, 2], [3, 3, 2], [4, 2, 2]];
+  const shade = [[6, 2, 10]];
   return (
-    <svg viewBox="0 0 34 20" aria-hidden="true" width="100%">
-      <path
-        fill="currentColor"
-        d="M6 19C2.7 19 0 16.5 0 13.4c0-2.9 2.3-5.3 5.3-5.5C6.7 3.6 9.2 2 12.2 2c2.7 0 5 1.3 6.4 3.3.9-.5 2-.8 3.1-.8 3 0 5.5 2.2 5.9 5.1 3.7.2 6.4 2.2 6.4 5.2 0 2.8-2.4 4.2-5.4 4.2H6Z"
-      />
-      <path
-        fill="#ffffff"
-        opacity="0.5"
-        d="M12.2 2c2.7 0 5 1.3 6.4 3.3-1.7.4-3.1 1.5-3.9 3-.8-1-2-1.7-3.4-1.7-.8 0-1.5.2-2.1.5C6.7 3.6 9.2 2 12.2 2Z"
-      />
+    <svg viewBox="0 0 14 9" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+      <g fill="currentColor">
+        {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#ffffff" opacity="0.55">
+        {light.map(([y, x, w], i) => <rect key={`l${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#0b1020" opacity="0.14">
+        {shade.map(([y, x, w], i) => <rect key={`s${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
     </svg>
   );
 }
@@ -104,8 +115,12 @@ export default function Sky({ theme, onToggleTheme }) {
   const reduce = useReducedMotion();
   const isDark = theme === "dark";
 
-  const drift = (dur) =>
-    reduce ? {} : { x: [0, -26, 0], transition: { duration: dur, repeat: Infinity, ease: "linear" } };
+  const drift = reduce
+    ? {}
+    : { x: [0, -14, 0], transition: { duration: 30, repeat: Infinity, ease: "easeInOut" } };
+  const bob = reduce
+    ? {}
+    : { y: [0, -3, 0], transition: { duration: 4.5, repeat: Infinity, ease: "easeInOut" } };
 
   return (
     <>
@@ -117,9 +132,12 @@ export default function Sky({ theme, onToggleTheme }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <motion.div className="cloud c1" animate={drift(26)}><Cloud /></motion.div>
-          <motion.div className="cloud c2" animate={drift(34)}><Puff /></motion.div>
-          <motion.div className="cloud c3" animate={drift(30)}><Cloud /></motion.div>
+          {/* One cluster, right by the moon — it drifts as a whole so the
+              clouds stay together instead of scattering across the sky. */}
+          <motion.div className="cloudset" animate={drift}>
+            <div className="cloud c1"><Cloud /></div>
+            <motion.div className="cloud c2" animate={bob}><Puff /></motion.div>
+          </motion.div>
         </motion.div>
       </AnimatePresence>
 

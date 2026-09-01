@@ -61,12 +61,13 @@ a { color:inherit; text-decoration:none; }
    and clouds live up at the name and scroll away with the hero instead of
    trailing the reader down the page. */
 .sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:0; pointer-events:none; }
-.cloud { position:absolute; color:var(--cloud); }
-/* Kept clear of the avatar (top-left) and the sun/moon toggle (top-right);
-   sit in the empty side gutters and the upper-right gap. */
-.cloud.c1 { top:8%; right:19%; width:88px; opacity:.85; }
-.cloud.c2 { top:27%; right:4%; width:56px; opacity:.6; }
-.cloud.c3 { top:42%; left:4%; width:72px; opacity:.5; }
+/* One cluster, tucked right beside the moon/sun toggle — the clouds drift as a
+   group instead of scattering across the sky. */
+.cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 26px);
+  right:calc(clamp(3rem,26vw,30rem) - 42px); width:118px; height:64px; }
+.cloud { position:absolute; color:var(--cloud); image-rendering:pixelated; }
+.cloud.c1 { top:0; right:0; width:92px; opacity:.92; z-index:1; }
+.cloud.c2 { top:30px; left:0; width:48px; opacity:.8; }
 
 /* The sun/moon toggle: a sibling of .sky (its own stacking context) so its
    z-index clears .wrap for real. Absolute at the top, in the gap to the right
@@ -235,6 +236,9 @@ footer { margin-top:3.2rem; padding-top:1.2rem; border-top:1px solid var(--line)
 @media (max-width:600px) {
   .celestial { top:clamp(.8rem,4vw,1.4rem); right:6%; width:38px; height:38px; }
   .celestial-inner { width:38px; height:38px; }
+  .cloudset { top:calc(clamp(.8rem,4vw,1.4rem) + 20px); right:calc(6% - 30px); width:92px; height:52px; }
+  .cloud.c1 { width:74px; }
+  .cloud.c2 { width:38px; top:24px; }
   .row { grid-template-columns:1fr; row-gap:.5rem; }
   .links a { grid-template-columns:1fr auto; }
   .links .lkey { display:none; }
