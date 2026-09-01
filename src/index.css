@@ -159,6 +159,8 @@ a { color:inherit; text-decoration:none; }
 .row { display:grid; grid-template-columns:8rem 1fr; column-gap:2rem; padding:1.3rem 0;
   border-top:1px solid var(--line); align-items:start; }
 .row:first-child { border-top:0; padding-top:0; }
+.row-linked { cursor:pointer; }
+.row-linked:focus-visible { outline:2px solid var(--accent); outline-offset:4px; border-radius:4px; }
 .row:hover .rlink .go { transform:translateX(2px) scale(1.3); }
 .row:hover .rlink > span::after { transform:scaleX(1); }
 
