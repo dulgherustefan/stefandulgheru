@@ -151,7 +151,7 @@ a { color:inherit; text-decoration:none; }
   font-family:var(--body); font-size:14px; color:var(--muted); }
 .showmore-txt { text-decoration:underline; text-decoration-thickness:from-font;
   text-underline-offset:3px; }
-.showmore:hover { color:var(--fg); }
+.showmore:hover { color:var(--accent); }
 .showmore-caret { width:6px; height:6px; border-right:1.6px solid currentColor;
   border-bottom:1.6px solid currentColor; transform:translateY(-2px) rotate(45deg);
   transition:transform .25s ease; }
