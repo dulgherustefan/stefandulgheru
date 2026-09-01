@@ -33,13 +33,31 @@ function Go({ className = "go" }) {
   );
 }
 
+// A tiny planet with a satellite orbiting it — the badge for the Orbit Wars row.
+function Orbit() {
+  const reduce = useReducedMotion();
+  return (
+    <div className="orbit" aria-hidden="true">
+      <span className="planet" />
+      <motion.div
+        className="orbitpath"
+        animate={reduce ? {} : { rotate: 360 }}
+        transition={reduce ? {} : { repeat: Infinity, duration: 7, ease: "linear" }}
+      >
+        <span className="sat" />
+      </motion.div>
+    </div>
+  );
+}
+
 // One list row: an accent stat in the gutter, a title that links straight to
 // the primary destination, then any extra links below (code, write-ups, etc.).
-function Row({ gtop, gsub, name, desc, primary, extras = [], i }) {
+function Row({ gtop, gsub, name, desc, primary, extras = [], emblem = null, i }) {
   return (
     <Reveal i={i}>
       <article className="row">
         <div className="gut">
+          {emblem}
           <div className="gtop">{gtop}</div>
           {gsub ? <div className="gsub">{gsub}</div> : null}
         </div>
@@ -133,6 +151,7 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
+              emblem={c.orbit ? <Orbit /> : null}
             />
           ))}
         </div>

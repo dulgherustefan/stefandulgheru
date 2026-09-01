@@ -137,6 +137,7 @@ export const competitions = [
   {
     id: "orbit-wars",
     name: "Kaggle · Orbit Wars",
+    orbit: true,
     tagTop: "288th",
     tagSub: "of 4,730",
     desc:
