@@ -87,8 +87,11 @@ a { color:inherit; text-decoration:none; }
 ::view-transition-new(root) { animation:none; mix-blend-mode:normal; }
 /* Old theme stays under; the incoming theme is clipped open from the toggle. */
 .vt-reveal::view-transition-old(root) { z-index:1; }
+/* The incoming theme opens as a circle from the toggle, with a soft glowing rim
+   (drop-shadow tracks the clip silhouette) so it reads as a spreading light. */
 .vt-reveal::view-transition-new(root) { z-index:9999;
-  animation:vt-spread .55s cubic-bezier(.2,.7,.2,1) both; }
+  animation:vt-spread 1.05s cubic-bezier(.33,0,.2,1) both;
+  filter:drop-shadow(0 0 26px var(--vt-glow, rgba(255,214,140,.6))); }
 @keyframes vt-spread {
   from { clip-path:circle(0% at var(--vt-x,50%) var(--vt-y,10%)); }
   to   { clip-path:circle(150% at var(--vt-x,50%) var(--vt-y,10%)); }
@@ -163,34 +166,22 @@ a { color:inherit; text-decoration:none; }
 .row:hover .rlink .go { transform:translateX(3px); }
 
 .gut { min-width:0; }
-/* Orbit-Wars ambient orbit: a planet + comet tail sweeping a wide ellipse
-   around the whole row, behind the text, without shifting any layout. The
-   gutter keeps the plain rank. Path is a fixed 560x180 box centered on the row;
-   it scales down on small screens. Trail dots share the path and lag via
-   slightly smaller negative delays. */
+/* Orbit-Wars ambient system: a planet + comet tail + little moon sweep a wide
+   tilted ellipse around the whole row, behind the text, without shifting any
+   layout. The gutter keeps the plain rank. Positions come from framer useTime
+   (JS transforms); this file only styles the bodies and the faint orbit ring.
+   The 560x180 field is centered on the row and scales down on small screens. */
 .row.has-field { position:relative; }
 .row.has-field .gut, .row.has-field .rbody { position:relative; z-index:1; }
 .orbitfield { position:absolute; top:50%; left:50%; width:560px; height:180px;
-  transform:translate(-50%,-50%); pointer-events:none; z-index:0; }
-.of-orbit { position:absolute; left:20px; top:12px; width:520px; height:156px;
-  border:1px dashed var(--line-2); border-radius:50%; opacity:.25; }
-.of-body { position:absolute; top:0; left:0; border-radius:50%;
-  offset-path:path("M 20 90 a 260 78 0 1 0 520 0 a 260 78 0 1 0 -520 0");
-  offset-rotate:0deg; offset-anchor:center;
-  animation:of-run 15s linear infinite; will-change:offset-distance; }
-.of-planet { width:14px; height:14px; animation-delay:-1s;
-  background:radial-gradient(circle at 34% 30%, #ffd792 0%, #f39a44 55%, #c9611f 100%);
-  box-shadow:0 0 12px rgba(243,150,70,.6), 0 0 3px rgba(255,220,170,.9); }
-.of-t1 { width:9px; height:9px; animation-delay:-.86s; background:#f4a559; opacity:.55; }
-.of-t2 { width:6px; height:6px; animation-delay:-.72s; background:#f0b070; opacity:.32; }
-.of-t3 { width:4px; height:4px; animation-delay:-.58s; background:#eebb86; opacity:.16; }
-@keyframes of-run { to { offset-distance:100%; } }
-@media (max-width:760px) { .orbitfield { transform:translate(-50%,-50%) scale(.62); } }
-@media (prefers-reduced-motion:reduce) {
-  .of-body { animation:none; }
-  .of-planet { offset-distance:12%; } .of-t1 { offset-distance:11%; }
-  .of-t2 { offset-distance:10%; } .of-t3 { offset-distance:9%; }
-}
+  transform:translate(-50%,-50%) rotate(-7deg); pointer-events:none; z-index:0; }
+.of-orbit { position:absolute; left:32px; top:8px; width:496px; height:164px;
+  border:1px dashed var(--line-2); border-radius:50%; opacity:.22; }
+.of-b { position:absolute; top:0; left:0; border-radius:50%; will-change:transform; }
+.of-main { background:radial-gradient(circle at 34% 30%, #ffd99b 0%, #f2963f 55%, #c25e1c 100%); }
+.of-t { background:#f2a558; }
+.of-moon { background:var(--accent); box-shadow:0 0 5px var(--accent-soft); }
+@media (max-width:760px) { .orbitfield { transform:translate(-50%,-50%) rotate(-7deg) scale(.6); } }
 /* Gutter label: status / medal / rank, in the accent so it reads first. */
 .gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
 .gsub { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint); margin-top:.4rem; }
