@@ -1,0 +1,210 @@
+:root,
+:root[data-theme="dark"] {
+  --bg:#0e0e12;
+  --bg-2:#16161d;
+  --fg:#eaeaea;
+  --muted:#94949d;
+  --faint:#787880;
+  --line:#22232e;
+  --line-2:#2c2d3a;
+  --accent:#6b8aff;
+  --accent-soft:rgba(107,138,255,.14);
+  --medal:#d7a24a;
+  --live:#79c98d;
+  --card:#14141b;
+  --cloud:#dfe4f5;
+  --sakura:#e6a6c6;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 18px 40px rgba(0,0,0,.4);
+}
+:root[data-theme="light"] {
+  --bg:#ffffff;
+  --bg-2:#f5f5f7;
+  --fg:#111111;
+  --muted:#555555;
+  --faint:#6e6e6e;
+  --line:#ececef;
+  --line-2:#dedee3;
+  --accent:#3b5bff;
+  --accent-soft:rgba(59,91,255,.10);
+  --medal:#a9741b;
+  --live:#2f8f4e;
+  --card:#ffffff;
+  --cloud:#9fb0e8;
+  --sakura:#cf6f9c;
+  --shadow:0 1px 2px rgba(20,20,30,.05), 0 18px 40px rgba(20,20,30,.10);
+}
+
+:root {
+  --display:"Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --body:"Hanken Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* { box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; overflow-x:hidden; }
+body {
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:var(--body); font-size:14px; line-height:1.5;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+  transition:background .5s ease, color .5s ease;
+}
+::selection { background:var(--accent-soft); color:var(--accent); }
+a { color:inherit; text-decoration:none; }
+:focus-visible { outline:2px solid var(--accent); outline-offset:3px; border-radius:4px; }
+
+/* ---------- shell ---------- */
+.wrap { max-width:44rem; margin:0 auto; padding:2.4rem 1.7rem 5rem; position:relative; z-index:2; }
+
+/* ---------- sky ---------- */
+.sky { position:fixed; inset:0; z-index:0; pointer-events:none; }
+.cloud { position:absolute; image-rendering:pixelated; color:var(--cloud); }
+/* Kept clear of the avatar (top-left) and the sun/moon toggle (top-right);
+   sit in the empty side gutters and the upper-right gap. */
+.cloud.c1 { top:8%; right:19%; width:88px; opacity:.85; }
+.cloud.c2 { top:27%; right:4%; width:56px; opacity:.6; }
+.cloud.c3 { top:42%; left:4%; width:72px; opacity:.5; }
+
+/* Deliberately NOT nested inside .sky: .sky is position:fixed, which always
+   opens its own stacking context, so a z-index set on a child there can
+   never climb above .topbar/.wrap regardless of its number — the whole
+   .sky subtree is confined to paint together. .wrap runs edge-to-edge on
+   mobile and would sit on top and swallow every tap. Kept as a sibling with
+   its own z-index instead so it stacks above the page for real. */
+.celestial { position:fixed; top:5%; right:7%; z-index:6; width:58px; height:58px;
+  display:grid; place-items:center; background:transparent; border:0; cursor:pointer; pointer-events:auto;
+  image-rendering:pixelated; transition:transform .2s ease; }
+.celestial:hover { transform:scale(1.08); }
+.celestial-inner { display:block; width:52px; height:52px; filter:drop-shadow(0 0 14px rgba(240,236,220,.3)); }
+:root[data-theme="light"] .celestial-inner { filter:drop-shadow(0 0 16px rgba(255,150,80,.55)); }
+
+/* ---------- minimal hero ---------- */
+.hero { padding: clamp(1rem,4vw,1.8rem) 0 0; }
+.idrow { display:flex; align-items:center; gap:1.35rem; }
+/* Same footprint as creativeatishay.in's own .profile-avatar (106px square,
+   12px radius, 4px frame) — cropped wide enough in the source photo to keep
+   him head-to-toe inside that square rather than a tight headshot pan. */
+.avatar { width:106px; height:106px; flex:none; border-radius:12px; overflow:hidden;
+  background:radial-gradient(120% 120% at 30% 20%, color-mix(in oklab, var(--fg) 8%, var(--bg-2)), var(--bg-2));
+  border:4px solid var(--bg); box-shadow:0 0 0 1px var(--line-2), var(--shadow);
+  display:grid; place-items:center;
+  font-family:var(--display); font-weight:700; font-size:1.7rem; color:var(--fg); line-height:1; }
+.avatar img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
+/* .name/.role match creativeatishay.in's own .profile-info h1 (24px/600/-.03em)
+   and .profile-role (15px/400) exactly. */
+.name { font-family:var(--display); font-weight:600; letter-spacing:-.03em; margin:.2rem 0 0; line-height:1.15;
+  font-size:24px; color:var(--fg); }
+.role { font-family:var(--body); font-size:15px; color:var(--muted); margin:.25rem 0 0; }
+.role b { font-weight:600; color:var(--accent); }
+
+/* No literal match on their homepage for a headline sentence like this one —
+   sized to their .fv-title (26px/700), the biggest "statement" text they use
+   outside the hero name. */
+.tagline { font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-.02em;
+  color:var(--fg); margin:clamp(1.6rem,4vw,2.1rem) 0 0; line-height:1.3; text-wrap:balance; max-width:36rem; }
+
+.bio { color:var(--muted); margin:clamp(1.6rem,4vw,2.1rem) 0 0; max-width:36rem; }
+.bio p { margin:.8rem 0 0; }
+.bio p:first-child { margin-top:0; }
+/* Lead line gives the hero a size step now that the display tagline is gone. */
+.bio p.lead { font-size:16.5px; line-height:1.5; color:var(--fg); letter-spacing:-.005em; }
+
+.lnk { color:var(--fg); text-decoration:underline; text-decoration-color:var(--line-2);
+  text-underline-offset:3px; transition:text-decoration-color .18s ease, color .18s ease; cursor:pointer; }
+.lnk:hover { color:var(--accent); text-decoration-color:var(--accent); }
+.note { position:relative; }
+.note > .tip { position:absolute; left:50%; bottom:calc(100% + .5rem); transform:translateX(-50%) translateY(4px);
+  background:var(--bg-2); border:1px solid var(--line-2); border-radius:9px; padding:.4rem .6rem;
+  font-family:var(--mono); font-size:.68rem; color:var(--muted); white-space:nowrap;
+  opacity:0; pointer-events:none; transition:opacity .16s ease, transform .16s ease; z-index:10; box-shadow:var(--shadow); }
+.note:hover > .tip, .note:focus-within > .tip { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ---------- sections ---------- */
+.sec { margin-top: clamp(2.4rem,6vw,3.2rem); }
+/* Matches their .post-list-title/.photo-scroller-label label style exactly:
+   11px mono, .11em tracking, uppercase, weight 500. */
+.eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--faint); margin:0 0 1.25rem; font-weight:500; }
+
+.rows { display:flex; flex-direction:column; }
+.row { display:grid; grid-template-columns:8rem 1fr; column-gap:2rem; padding:1.3rem 0;
+  border-top:1px solid var(--line); align-items:start; }
+.row:first-child { border-top:0; padding-top:0; }
+.row:hover .rlink { color:var(--accent); }
+.row:hover .rlink .go { transform:translateX(3px); }
+
+.gut { min-width:0; }
+/* Gutter label: status / medal / rank, in the accent so it reads first. */
+.gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
+.gsub { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint); margin-top:.4rem; }
+
+.rbody { min-width:0; }
+.rname { font-family:var(--display); font-weight:600; font-size:14.5px; color:var(--fg); line-height:1.25;
+  letter-spacing:-.005em; margin:0; }
+/* Title is the primary link: whole name + a right arrow that nudges on hover. */
+.rlink { display:inline-flex; align-items:center; gap:.45ch; color:var(--fg); transition:color .16s ease; }
+.rlink:hover { color:var(--accent); }
+.go { width:13px; height:13px; flex:none; transition:transform .18s ease; }
+.go.sm { width:11px; height:11px; }
+.rlink:hover .go { transform:translateX(3px); }
+.rdesc { color:var(--muted); font-size:13px; line-height:1.4; margin:.4rem 0 0; }
+/* Extra links (code, write-ups): accent, below the description. */
+.rmeta { margin-top:.55rem; display:flex; flex-wrap:wrap; gap:.35rem 1rem; align-items:center;
+  font-family:var(--mono); font-size:11px; letter-spacing:.02em; }
+.rmeta .xlink { color:var(--accent); display:inline-flex; align-items:center; gap:.35ch; transition:opacity .16s ease; }
+.rmeta .xlink:hover { opacity:.68; }
+.ext { width:10px; height:10px; opacity:.75; }
+
+/* ---------- languages ---------- */
+.langs { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.6rem; }
+.lang { display:inline-flex; align-items:baseline; gap:.6ch; padding:.5rem .9rem;
+  border:1px solid var(--line); border-radius:999px; }
+.lname { font-family:var(--display); font-weight:600; font-size:14px; color:var(--fg); }
+.llevel { font-family:var(--mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--faint); }
+
+/* ---------- elsewhere ---------- */
+.links { display:flex; flex-direction:column; }
+.links a { display:grid; grid-template-columns:8rem 1fr auto; column-gap:2rem; align-items:center;
+  padding:.9rem 0; border-top:1px solid var(--line); transition:color .16s ease; }
+.links a:first-child { border-top:0; }
+.links a:hover { color:var(--accent); }
+.links a:hover .arrow { transform:translate(2px,-2px); color:var(--accent); }
+.links .lkey { font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--faint); font-weight:500; }
+.links .lval { font-family:var(--body); font-size:15px; color:var(--fg); }
+.links .arrow { color:var(--faint); transition:transform .18s ease, color .18s ease; width:13px; height:13px; }
+
+/* Matches .article > footer p: 14px/400, ~no letter-spacing. */
+footer { margin-top:3.2rem; padding-top:1.2rem; border-top:1px solid var(--line);
+  font-family:var(--mono); font-size:14px; letter-spacing:normal; color:var(--faint);
+  display:flex; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+
+/* ---------- github graph ---------- */
+.gh-head { display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin-bottom:1.1rem; }
+.gh-link { font-family:var(--mono); font-size:13px; color:var(--muted); display:inline-flex; align-items:center; gap:.35ch; transition:color .16s ease; }
+.gh-link:hover { color:var(--accent); }
+.gh-graphwrap { overflow-x:auto; padding-bottom:.4rem; }
+.gh-graph { display:inline-flex; gap:3px; }
+.gh-col { display:flex; flex-direction:column; gap:3px; }
+.gh-cell { width:11px; height:11px; border-radius:3px; background:var(--line); display:inline-block; flex:none; }
+.gh-cell.lvl-0 { background:var(--line); }
+.gh-cell.lvl-1 { background:color-mix(in oklab, var(--accent) 32%, var(--line)); }
+.gh-cell.lvl-2 { background:color-mix(in oklab, var(--accent) 55%, var(--line)); }
+.gh-cell.lvl-3 { background:color-mix(in oklab, var(--accent) 80%, var(--bg)); }
+.gh-cell.lvl-4 { background:var(--accent); }
+.gh-legend { display:flex; align-items:center; justify-content:space-between; margin-top:.8rem;
+  font-family:var(--mono); font-size:11px; color:var(--faint); gap:1rem; flex-wrap:wrap; }
+.gh-scale { display:inline-flex; align-items:center; gap:.35rem; }
+.gh-scale .gh-cell { width:10px; height:10px; }
+
+/* ---------- responsive ---------- */
+@media (max-width:600px) {
+  .celestial { top:2.5%; right:6%; }
+  .row { grid-template-columns:1fr; row-gap:.5rem; }
+  .links a { grid-template-columns:1fr auto; }
+  .links .lkey { display:none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body { transition:none; }
+  * { scroll-behavior:auto; }
+}
