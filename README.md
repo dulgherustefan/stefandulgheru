@@ -1,7 +1,14 @@
-# dulgherustefan.github.io
+# stefandulgheru.vercel.app
 
-My personal site: a timeline of projects, competitions and conferences.
+My personal site: hero, selected work, competitions, teaching, languages, GitHub activity.
 
-**Live:** https://dulgherustefan.github.io
+**Live:** https://stefandulgheru.vercel.app
 
-It's a single `index.html` with plain HTML, CSS and a little JavaScript. No build step and no dependencies, so you can open the file directly to run it. It works in light and dark themes and respects reduced-motion.
+Built with Vite, React and Framer Motion, smooth-scrolled with Lenis. Light and dark themes, respects reduced-motion.
+
+## Run locally
+
+```
+npm install
+npm run dev
+```
