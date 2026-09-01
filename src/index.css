@@ -74,7 +74,7 @@ a { color:inherit; text-decoration:none; }
 /* The sun/moon toggle: fixed at the top, sitting in the gap to the right of
    the name — pulled in from the edge so it reads as its own object, not chrome.
    Stays put on scroll, like the clouds. */
-.celestial { position:fixed; top:clamp(1rem,3vw,1.9rem); right:clamp(2rem,20vw,22rem);
+.celestial { position:fixed; top:clamp(1rem,3vw,1.9rem); right:clamp(3rem,26vw,30rem);
   z-index:6; width:44px; height:44px; padding:0; background:transparent; border:0;
   cursor:pointer; pointer-events:auto; line-height:0; display:grid; place-items:center; }
 .celestial-inner { display:block; width:44px; height:44px; }
@@ -163,31 +163,33 @@ a { color:inherit; text-decoration:none; }
 .row:hover .rlink .go { transform:translateX(3px); }
 
 .gut { min-width:0; }
-/* Orbit-Wars badge: a warm star with two bodies running tilted orbits. Motion
-   is CSS offset-path so it animates on its own and reads as a live system. */
-.orbit { position:relative; width:48px; height:48px; margin:0 0 .7rem; flex:0 0 auto; }
-.orbit-ring { position:absolute; left:3px; top:16px; width:42px; height:20px;
-  border:1px dashed var(--line-2); border-radius:50%; opacity:.5; }
-.orbit-star { position:absolute; top:50%; left:50%; width:12px; height:12px; margin:-6px 0 0 -6px;
-  border-radius:50%; background:radial-gradient(circle at 38% 34%, #ffe08a 0%, #ffab3c 55%, #f4791a 100%);
-  box-shadow:0 0 8px rgba(255,150,60,.6); animation:orbit-pulse 3s ease-in-out infinite; }
-.orbit-body { position:absolute; top:0; left:0; border-radius:50%;
-  offset-rotate:0deg; offset-anchor:center; }
-.orbit-body.b1 { width:7px; height:7px; background:var(--accent);
-  box-shadow:0 0 6px var(--accent-soft);
-  offset-path:path("M 3 24 a 21 12 0 1 0 42 0 a 21 12 0 1 0 -42 0");
-  animation:orbit-run 4.6s linear infinite; }
-.orbit-body.b2 { width:4px; height:4px; background:#e7ecff;
-  box-shadow:0 0 4px rgba(160,180,255,.7);
-  offset-path:path("M 11 24 a 13 7 0 1 0 26 0 a 13 7 0 1 0 -26 0");
-  animation:orbit-run 2.7s linear infinite; }
-@keyframes orbit-run { to { offset-distance:100%; } }
-@keyframes orbit-pulse { 0%,100% { box-shadow:0 0 8px rgba(255,150,60,.5); }
-  50% { box-shadow:0 0 13px rgba(255,150,60,.85); } }
+/* Orbit-Wars ambient orbit: a planet + comet tail sweeping a wide ellipse
+   around the whole row, behind the text, without shifting any layout. The
+   gutter keeps the plain rank. Path is a fixed 560x180 box centered on the row;
+   it scales down on small screens. Trail dots share the path and lag via
+   slightly smaller negative delays. */
+.row.has-field { position:relative; }
+.row.has-field .gut, .row.has-field .rbody { position:relative; z-index:1; }
+.orbitfield { position:absolute; top:50%; left:50%; width:560px; height:180px;
+  transform:translate(-50%,-50%); pointer-events:none; z-index:0; }
+.of-orbit { position:absolute; left:20px; top:12px; width:520px; height:156px;
+  border:1px dashed var(--line-2); border-radius:50%; opacity:.25; }
+.of-body { position:absolute; top:0; left:0; border-radius:50%;
+  offset-path:path("M 20 90 a 260 78 0 1 0 520 0 a 260 78 0 1 0 -520 0");
+  offset-rotate:0deg; offset-anchor:center;
+  animation:of-run 15s linear infinite; will-change:offset-distance; }
+.of-planet { width:14px; height:14px; animation-delay:-1s;
+  background:radial-gradient(circle at 34% 30%, #ffd792 0%, #f39a44 55%, #c9611f 100%);
+  box-shadow:0 0 12px rgba(243,150,70,.6), 0 0 3px rgba(255,220,170,.9); }
+.of-t1 { width:9px; height:9px; animation-delay:-.86s; background:#f4a559; opacity:.55; }
+.of-t2 { width:6px; height:6px; animation-delay:-.72s; background:#f0b070; opacity:.32; }
+.of-t3 { width:4px; height:4px; animation-delay:-.58s; background:#eebb86; opacity:.16; }
+@keyframes of-run { to { offset-distance:100%; } }
+@media (max-width:760px) { .orbitfield { transform:translate(-50%,-50%) scale(.62); } }
 @media (prefers-reduced-motion:reduce) {
-  .orbit-body, .orbit-star { animation:none; }
-  .orbit-body.b1 { offset-distance:18%; }
-  .orbit-body.b2 { offset-distance:62%; }
+  .of-body { animation:none; }
+  .of-planet { offset-distance:12%; } .of-t1 { offset-distance:11%; }
+  .of-t2 { offset-distance:10%; } .of-t3 { offset-distance:9%; }
 }
 /* Gutter label: status / medal / rank, in the accent so it reads first. */
 .gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
