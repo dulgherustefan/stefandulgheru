@@ -123,11 +123,10 @@ a { color:inherit; text-decoration:none; }
 .tagline { font-family:var(--display); font-weight:700; font-size:26px; letter-spacing:-.02em;
   color:var(--fg); margin:clamp(1.6rem,4vw,2.1rem) 0 0; line-height:1.3; text-wrap:balance; max-width:36rem; }
 
-.bio { color:var(--muted); margin:clamp(1.6rem,4vw,2.1rem) 0 0; max-width:36rem; }
-.bio p { margin:.8rem 0 0; }
+.bio { margin:clamp(1.6rem,4vw,2.1rem) 0 0; max-width:36rem; }
+.bio p { margin:.8rem 0 0; font-size:16.5px; line-height:1.5; color:var(--fg); letter-spacing:-.005em; }
 .bio p:first-child { margin-top:0; }
 /* Lead line gives the hero a size step now that the display tagline is gone. */
-.bio p.lead { font-size:16.5px; line-height:1.5; color:var(--fg); letter-spacing:-.005em; }
 
 .lnk { color:var(--fg); text-decoration:underline; text-decoration-color:var(--line-2);
   text-underline-offset:3px; transition:text-decoration-color .18s ease, color .18s ease; cursor:pointer; }

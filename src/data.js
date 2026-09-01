@@ -9,14 +9,14 @@ export const profile = {
   // bio as segments: string | {lnk, href} | {note, tip}
   bio: [
     [
-      "I'm a high-school student at the ",
+      "I'm a high-school student at ",
       { note: "Tudor Vianu", tip: "computer-science college, Bucharest" },
-      " computer-science college in Bucharest. I compete in ",
+      ", where I focus on machine learning and software. I compete in ",
       { lnk: "AI olympiads", href: "https://olimpiada-ai.ro" },
-      " and on Kaggle, and I build software, like the platform for my school's AI club, where I teach with two classmates.",
+      " and on Kaggle, and I build real software too, most recently the learning platform for my school's AI club, where I teach alongside two classmates.",
     ],
     [
-      "Most of what I know is self-taught, picked up by taking things apart to see how they work.",
+      "Most of what I know is self-taught: I learn best by pulling something apart, figuring out how it works, and putting it back together a little better than before.",
     ],
   ],
 };

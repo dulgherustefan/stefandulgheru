@@ -36,7 +36,7 @@ export function Bio({ paragraphs }) {
   return (
     <div className="bio">
       {paragraphs.map((para, i) => (
-        <p key={i} className={i === 0 ? "lead" : undefined}>
+        <p key={i}>
           {para.map((seg, j) => {
             if (typeof seg === "string") return <span key={j}>{seg}</span>;
             if (seg.lnk)
