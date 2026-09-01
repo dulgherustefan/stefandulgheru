@@ -168,17 +168,6 @@ a { color:inherit; text-decoration:none; }
    layout. The gutter keeps the plain rank. Positions come from framer useTime
    (JS transforms); this file only styles the bodies and the faint orbit ring.
    The 560x180 field is centered on the row and scales down on small screens. */
-/* A tidy orbit hugging the rank number. .gorbit wraps the number so the ring
-   can be measured against it; .obadge is absolute inset:0 with no transform, so
-   the planet's per-frame z-index interleaves with the number (z-index:1) — it
-   passes in front on the near arc, behind on the far one. */
-.gorbit { position:relative; display:inline-block; }
-.gorbit .gtop { position:relative; z-index:1; }
-.obadge { position:absolute; inset:0; pointer-events:none; }
-.ob-ring { position:absolute; border:1px solid var(--line-2); border-radius:50%;
-  opacity:.4; transform:rotate(-15deg); }
-.ob-planet { position:absolute; top:0; left:0; border-radius:50%; will-change:transform;
-  background:radial-gradient(circle at 34% 30%, #ffdca0 0%, #f2963f 55%, #c25e1c 100%); }
 /* Gutter label: status / medal / rank, in the accent so it reads first. */
 .gtop { font-family:var(--mono); font-weight:500; font-size:14.5px; line-height:1.25; color:var(--accent); letter-spacing:-.01em; }
 .gsub { font-family:var(--mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; color:var(--faint); margin-top:.4rem; }
@@ -204,9 +193,6 @@ a { color:inherit; text-decoration:none; }
 .horizon { width:100vw; margin-left:calc(50% - 50vw); margin-top:2.5rem; margin-bottom:-2.5rem;
   color:var(--cloud); line-height:0; pointer-events:none; }
 .horizon svg { display:block; width:100%; height:clamp(84px, 12vw, 150px); image-rendering:pixelated; }
-.hz-fuji { fill:currentColor; opacity:.5; }
-.hz-fuji-s { fill:#000; opacity:.14; }
-.hz-snow { fill:#eef2ff; }
 .hz-b { fill:currentColor; opacity:.78; }
 .hz-b-s { fill:#000; opacity:.16; }
 .hz-win { fill:#ffcf6b; }

@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion, useTime, useTransform } from "framer-motion";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { profile, work, competitions, conferences, languages, links } from "../data.js";
 import { Arrow, Avatar, Bio } from "./Bits.jsx";
 import GithubGraph from "./GithubGraph.jsx";
@@ -34,81 +34,14 @@ function Go({ className = "go" }) {
   );
 }
 
-// A single planet on a tidy, tilted orbit around the rank number ("288th"): a
-// faint ring for context, a warm planet with a soft glow, and a touch of depth
-// — it grows and passes in FRONT of the number on the near arc, shrinks and
-// slips BEHIND it on the far arc (per-frame z-index). Geometry is measured from
-// the number so the ring always hugs it. Motion runs on framer's useTime and
-// stills under reduced motion. Restrained on purpose: one body, no clutter.
-const TAU = Math.PI * 2;
-const BADGE_PERIOD = 6400;
-const BADGE_TILT = -15 * (Math.PI / 180);
-const BC = Math.cos(BADGE_TILT);
-const BS = Math.sin(BADGE_TILT);
-const BADGE_STILL = 3400;
-
-function badgePlace(v, reduce, geo, size) {
-  const th = ((reduce ? BADGE_STILL : v) / BADGE_PERIOD) * TAU;
-  const ex = geo.rx * Math.cos(th);
-  const ey = geo.ry * Math.sin(th);
-  const x = geo.cx + ex * BC - ey * BS - size / 2;
-  const y = geo.cy + ex * BS + ey * BC - size / 2;
-  const near = 0.5 + 0.5 * Math.sin(th); // 1 at the bottom (front), 0 at the top
-  return { x, y, near };
-}
-
-function OrbitBadge() {
-  const reduce = useReducedMotion();
-  const t = useTime();
-  const ref = useRef(null);
-  const [box, setBox] = useState({ w: 58, h: 18 });
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const read = () => setBox({ w: el.clientWidth, h: el.clientHeight });
-    read();
-    const ro = new ResizeObserver(read);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const size = 7;
-  const geo = { cx: box.w / 2, cy: box.h / 2, rx: box.w / 2 + 17, ry: box.h / 2 + 12 };
-  const x = useTransform(t, (v) => badgePlace(v, reduce, geo, size).x);
-  const y = useTransform(t, (v) => badgePlace(v, reduce, geo, size).y);
-  const scale = useTransform(t, (v) => 0.82 + 0.3 * badgePlace(v, reduce, geo, size).near);
-  const zIndex = useTransform(t, (v) => (badgePlace(v, reduce, geo, size).near > 0.5 ? 2 : 0));
-  const boxShadow = useTransform(t, (v) => {
-    const n = badgePlace(v, reduce, geo, size).near;
-    return `0 0 ${5 + n * 8}px rgba(243,150,70,${0.38 + n * 0.42})`;
-  });
-
-  return (
-    <span className="obadge" ref={ref} aria-hidden="true">
-      <span
-        className="ob-ring"
-        style={{ width: geo.rx * 2, height: geo.ry * 2, left: geo.cx - geo.rx, top: geo.cy - geo.ry }}
-      />
-      <motion.span className="ob-planet" style={{ x, y, scale, zIndex, boxShadow, width: size, height: size }} />
-    </span>
-  );
-}
-
 // One list row: an accent stat in the gutter, a title that links straight to
 // the primary destination, then any extra links below (code, write-ups, etc.).
-function Row({ gtop, gsub, name, desc, primary, extras = [], field = null, i }) {
+function Row({ gtop, gsub, name, desc, primary, extras = [], i }) {
   return (
     <Reveal i={i}>
-      <article className={`row${field ? " has-field" : ""}`}>
+      <article className="row">
         <div className="gut">
-          {field ? (
-            <span className="gorbit">
-              <span className="gtop">{gtop}</span>
-              {field}
-            </span>
-          ) : (
-            <div className="gtop">{gtop}</div>
-          )}
+          <div className="gtop">{gtop}</div>
           {gsub ? <div className="gsub">{gsub}</div> : null}
         </div>
         <div className="rbody">
@@ -243,7 +176,6 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
-              field={c.orbit ? <OrbitBadge /> : null}
             />
           )}
         />
