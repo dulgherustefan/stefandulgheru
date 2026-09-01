@@ -60,14 +60,18 @@ a { color:inherit; text-decoration:none; }
 /* Anchored to the top of the page (the hero), NOT the viewport — so the moon
    and clouds live up at the name and scroll away with the hero instead of
    trailing the reader down the page. */
-.sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:0; pointer-events:none; }
+/* z-index above .celestial (6) so the cloud cluster can drift in front of the
+   moon/sun and clip it slightly, the way real clouds pass in front. Safe to
+   paint over the button: pointer-events:none here means it never blocks the
+   click. */
+.sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:7; pointer-events:none; }
 /* One cluster, tucked right beside the moon/sun toggle — the clouds drift as a
    group instead of scattering across the sky. */
-.cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 26px);
-  right:calc(clamp(3rem,26vw,30rem) - 42px); width:118px; height:64px; }
+.cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 18px);
+  right:calc(clamp(3rem,26vw,30rem) - 36px); width:124px; height:76px; }
 .cloud { position:absolute; color:var(--cloud); image-rendering:pixelated; }
 .cloud.c1 { top:0; right:0; width:92px; opacity:.92; z-index:1; }
-.cloud.c2 { top:30px; left:0; width:48px; opacity:.8; }
+.cloud.c2 { top:36px; left:0; width:62px; opacity:.8; }
 
 /* The sun/moon toggle: a sibling of .sky (its own stacking context) so its
    z-index clears .wrap for real. Absolute at the top, in the gap to the right
