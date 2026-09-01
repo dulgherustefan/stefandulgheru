@@ -1,80 +1,71 @@
-// A quiet dawn horizon pinned to the bottom of the page: a soft glow, Mt. Fuji
-// with a snow cap, two depths of city silhouette with a few lit windows, and a
-// little Tokyo Tower — a nod to the photo up top. Full-bleed and theme-aware
-// (silhouettes use currentColor = --cloud); the SVG stretches to any width.
-export default function TokyoHorizon() {
-  // Front skyline: varied buildings across the width, a few with lit windows.
-  const city = [
-    { x: 20, w: 46, h: 70 }, { x: 74, w: 30, h: 44 }, { x: 112, w: 54, h: 96, win: true },
-    { x: 174, w: 34, h: 58 }, { x: 216, w: 40, h: 40 }, { x: 356, w: 42, h: 62 },
-    { x: 406, w: 30, h: 90, win: true }, { x: 444, w: 48, h: 50 }, { x: 500, w: 34, h: 74 },
-    { x: 690, w: 40, h: 54 }, { x: 738, w: 52, h: 104, win: true }, { x: 800, w: 32, h: 62 },
-    { x: 840, w: 44, h: 42 }, { x: 1030, w: 38, h: 66 }, { x: 1076, w: 30, h: 92, win: true },
-    { x: 1114, w: 50, h: 52 }, { x: 1172, w: 26, h: 74 },
-  ];
-  const base = 200;
-  const windows = (b) => {
-    const cols = Math.max(1, Math.floor((b.w - 8) / 10));
-    const rows = Math.max(1, Math.floor((b.h - 14) / 12));
-    const out = [];
-    for (let r = 0; r < rows; r++)
-      for (let c = 0; c < cols; c++)
-        if ((r + c) % 2 === 0)
-          out.push(
-            <rect key={`${b.x}-${r}-${c}`} className="hz-win"
-              x={b.x + 6 + c * 10} y={base - b.h + 8 + r * 12} width="4" height="5" />
-          );
-    return out;
-  };
+// A pixel-art dusk horizon pinned to the bottom of the page: Mt. Fuji with a
+// snow cap, a pixel Tokyo Tower with a beacon, and a city of lit windows — a
+// nod to the photo up top. Drawn on an integer grid with crisp edges and a
+// uniform (non-stretching) scale so the pixels stay square at any width.
+const BASE = 48;
 
+// Mt. Fuji as stacked 4px steps, centred at x=240.
+const FUJI = [
+  [16, 236, 8], [20, 230, 20], [24, 221, 38], [28, 210, 60],
+  [32, 197, 86], [36, 182, 116], [40, 165, 150], [44, 146, 188],
+];
+// Snow cap pixels near the peak, with a couple of drips.
+const SNOW = [
+  [16, 236, 8], [20, 231, 13], [24, 228, 9], [24, 240, 5], [28, 231, 4], [28, 244, 4],
+];
+
+// Front skyline: [x, width, height, lit?]
+const CITY = [
+  [4, 16, 20, 1], [22, 10, 12, 0], [40, 22, 30, 1], [66, 12, 16, 0], [82, 16, 24, 1],
+  [148, 14, 18, 1], [300, 18, 16, 0], [320, 12, 28, 1], [338, 22, 20, 1],
+  [402, 14, 26, 1], [420, 18, 14, 0], [442, 12, 22, 1], [460, 18, 18, 0],
+];
+
+// Pixel Tokyo Tower (left of Fuji): [y, x, width].
+const TOWER = [
+  [44, 108, 24], [40, 111, 18], [37, 114, 12], [33, 116, 8], [30, 118, 4],
+  [28, 113, 14], [26, 115, 10], [22, 117, 6], [18, 118, 4], [14, 118, 4],
+];
+
+function windows(x, w, h) {
+  const out = [];
+  const top = BASE - h;
+  for (let wy = top + 3; wy < BASE - 3; wy += 5)
+    for (let wx = x + 3; wx < x + w - 2; wx += 5)
+      if ((wx + wy) % 2 === 0) out.push(<rect key={`${wx}-${wy}`} className="hz-win" x={wx} y={wy} width="2" height="2" />);
+  return out;
+}
+
+export default function TokyoHorizon() {
   return (
     <div className="horizon" aria-hidden="true">
-      <svg viewBox="0 0 1200 210" width="100%" preserveAspectRatio="none">
-        <defs>
-          <radialGradient id="hzGlow" cx="50%" cy="100%" r="62%">
-            <stop offset="0%" stopColor="#8ea2e8" stopOpacity="0.5" />
-            <stop offset="55%" stopColor="#8ea2e8" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#8ea2e8" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        {/* dawn glow behind the mountain */}
-        <ellipse className="hz-glow" cx="600" cy="200" rx="430" ry="150" fill="url(#hzGlow)" />
-
-        {/* Mt. Fuji with a snow cap */}
+      <svg viewBox="0 0 480 48" width="100%" preserveAspectRatio="xMidYMax slice" shapeRendering="crispEdges">
+        {/* Mt. Fuji */}
         <g className="hz-fuji">
-          <path d="M300 200 C440 150 560 92 600 70 C640 92 760 150 900 200 Z" />
+          {FUJI.map(([y, x, w]) => <rect key={`f${y}`} x={x} y={y} width={w} height="4" />)}
         </g>
-        <path className="hz-snow"
-          d="M556 108 C575 92 590 78 600 70 C610 78 625 92 644 108 C632 104 622 112 612 106
-             C606 114 600 104 594 112 C584 106 574 114 566 106 C562 111 559 110 556 108 Z" />
-
-        {/* distant back city */}
-        <g className="hz-back">
-          <rect x="120" y="150" width="60" height="60" />
-          <rect x="250" y="132" width="44" height="78" />
-          <rect x="470" y="146" width="70" height="64" />
-          <rect x="620" y="138" width="40" height="72" />
-          <rect x="900" y="150" width="56" height="60" />
-          <rect x="1010" y="134" width="46" height="76" />
+        <g className="hz-fuji-s">
+          {FUJI.map(([y, x, w]) => <rect key={`fs${y}`} x={x + w - 5} y={y} width="5" height="4" />)}
+        </g>
+        <g className="hz-snow">
+          {SNOW.map(([y, x, w], i) => <rect key={`s${i}`} x={x} y={y} width={w} height="4" />)}
         </g>
 
-        {/* front city + lit windows */}
-        <g className="hz-city">
-          {city.map((b) => (
-            <rect key={b.x} x={b.x} y={base - b.h} width={b.w} height={b.h} />
-          ))}
-        </g>
-        <g>{city.filter((b) => b.win).flatMap(windows)}</g>
-
-        {/* Tokyo Tower — pinched lattice, decks, antenna + beacon */}
+        {/* Tokyo Tower — pinched pixel lattice with an antenna + beacon */}
         <g className="hz-tower">
-          <path d="M283 200 L294 150 L298 110 L300 92 L302 110 L306 150 L317 200 Z" />
-          <rect x="290" y="148" width="20" height="4" />
-          <rect x="295" y="118" width="10" height="3" />
-          <rect x="299.1" y="80" width="1.8" height="12" />
+          {TOWER.map(([y, x, w], i) => <rect key={`t${i}`} x={x} y={y} width={w} height="4" />)}
+          <rect x="119" y="6" width="2" height="8" />
         </g>
-        <circle className="hz-beacon" cx="300" cy="80" r="2.4" />
+        <rect className="hz-beacon" x="118" y="3" width="4" height="3" />
+
+        {/* City + lit windows */}
+        <g className="hz-b">
+          {CITY.map(([x, w, h]) => <rect key={`c${x}`} x={x} y={BASE - h} width={w} height={h} />)}
+        </g>
+        <g className="hz-b-s">
+          {CITY.map(([x, w, h]) => <rect key={`cs${x}`} x={x + w - 3} y={BASE - h} width="3" height={h} />)}
+        </g>
+        <g>{CITY.filter((b) => b[3]).flatMap((b) => windows(b[0], b[1], b[2]))}</g>
       </svg>
     </div>
   );
