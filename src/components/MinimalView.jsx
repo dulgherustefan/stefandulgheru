@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { profile, work, competitions, conferences, languages, links } from "../data.js";
 import { Arrow, Avatar, Bio } from "./Bits.jsx";
 import GithubGraph from "./GithubGraph.jsx";
+import TokyoHorizon from "./TokyoHorizon.jsx";
 import { useMagnetic } from "../hooks/useMagnetic.js";
 
 function Reveal({ children, i = 0 }) {
@@ -182,6 +183,8 @@ export default function MinimalView() {
         <span>Ștefan Dulgheru</span>
         <span>Bucharest</span>
       </footer>
+
+      <TokyoHorizon />
     </div>
   );
 }

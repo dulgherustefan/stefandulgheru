@@ -170,6 +170,13 @@ a { color:inherit; text-decoration:none; }
 .rmeta .xlink:hover { opacity:.68; }
 .ext { width:10px; height:10px; opacity:.75; }
 
+/* ---------- tokyo horizon ---------- */
+.horizon { width:100vw; margin-left:calc(50% - 50vw); margin-top:2.5rem; margin-bottom:-2.5rem;
+  color:var(--cloud); line-height:0; pointer-events:none; }
+.horizon svg { display:block; width:100%; height:clamp(56px, 9vw, 96px); }
+.hz-city { opacity:.42; }
+.hz-tower { opacity:.7; }
+
 /* ---------- languages ---------- */
 .langs { list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.6rem; }
 .lang { display:inline-flex; align-items:baseline; gap:.6ch; padding:.5rem .9rem;
