@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion, useTime, useTransform } from "framer-motion";
 import { profile, work, competitions, conferences, languages, links } from "../data.js";
 import { Arrow, Avatar, Bio } from "./Bits.jsx";
 import GithubGraph from "./GithubGraph.jsx";
@@ -34,19 +34,56 @@ function Go({ className = "go" }) {
   );
 }
 
-// An ambient planet (with a comet tail) that orbits the whole Orbit Wars row on
-// a wide ellipse, sweeping above and below the listing without touching the
-// layout. Same idea as Magic UI's "Orbiting Circles", done in plain CSS
-// (offset-path) so it runs on its own compositor rAF. Stills under reduced
-// motion. Sits behind the text (see .orbitfield z-index).
+// Orbit-Wars ambient system. A planet runs a wide, tilted ellipse around the
+// whole row; a comet tail follows it, and a little moon circles the planet.
+// Depth is faked from the orbit angle — the body grows and glows on the near
+// arc, shrinks and dims on the far one — so a flat ellipse reads as 3D. Motion
+// is driven by framer's useTime, so positions update on the compositor without
+// re-rendering React. It sits behind the text and stills under reduced motion.
+const TAU = Math.PI * 2;
+const ORB = { cx: 280, cy: 90, rx: 248, ry: 82, period: 9200 };
+// A frozen phase used under reduced motion, so the tail still reads as a comet.
+const STILL = 2400;
+
+const depth = (ang) => 0.5 + 0.62 * (0.5 + 0.5 * Math.sin(ang)); // near arc = larger
+
+function OrbitBody({ t, reduce, lag, size, opacity, kind }) {
+  const { cx, cy, rx, ry, period } = ORB;
+  const ang = (v) => (((reduce ? STILL : v) - lag) / period) * TAU;
+  const x = useTransform(t, (v) => cx + rx * Math.cos(ang(v)) - size / 2);
+  const y = useTransform(t, (v) => cy + ry * Math.sin(ang(v)) - size / 2);
+  const scale = useTransform(t, (v) => depth(ang(v)));
+  const boxShadow = useTransform(t, (v) => {
+    const near = 0.5 + 0.5 * Math.sin(ang(v));
+    return `0 0 ${8 + near * 13}px rgba(243,150,70,${0.4 + near * 0.42}), 0 0 3px rgba(255,226,182,.9)`;
+  });
+  const style = { x, y, scale, width: size, height: size, opacity };
+  if (kind === "main") style.boxShadow = boxShadow;
+  return <motion.span className={`of-b of-${kind}`} style={style} />;
+}
+
+function OrbitMoon({ t, reduce }) {
+  const { cx, cy, rx, ry, period } = ORB;
+  const size = 5;
+  const pth = (v) => ((reduce ? STILL : v) / period) * TAU;
+  const mth = (v) => ((reduce ? STILL : v) / 1500) * TAU;
+  const x = useTransform(t, (v) => cx + rx * Math.cos(pth(v)) + 15 * Math.cos(mth(v)) - size / 2);
+  const y = useTransform(t, (v) => cy + ry * Math.sin(pth(v)) + 9 * Math.sin(mth(v)) - size / 2);
+  const scale = useTransform(t, (v) => depth(pth(v)));
+  return <motion.span className="of-b of-moon" style={{ x, y, scale, width: size, height: size }} />;
+}
+
 function OrbitField() {
+  const reduce = useReducedMotion();
+  const t = useTime();
   return (
     <div className="orbitfield" aria-hidden="true">
       <span className="of-orbit" />
-      <span className="of-body of-t3" />
-      <span className="of-body of-t2" />
-      <span className="of-body of-t1" />
-      <span className="of-body of-planet" />
+      <OrbitBody t={t} reduce={reduce} lag={860} size={5} opacity={0.18} kind="t" />
+      <OrbitBody t={t} reduce={reduce} lag={560} size={7} opacity={0.34} kind="t" />
+      <OrbitBody t={t} reduce={reduce} lag={280} size={10} opacity={0.55} kind="t" />
+      <OrbitMoon t={t} reduce={reduce} />
+      <OrbitBody t={t} reduce={reduce} lag={0} size={15} opacity={1} kind="main" />
     </div>
   );
 }
