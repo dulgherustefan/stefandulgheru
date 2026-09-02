@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<meta name="color-scheme" content="dark light" />
+<meta name="theme-color" content="#0e0e12" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+<title>Page not found — Ștefan Dulgheru</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+    } catch (e) {}
+  })();
+</script>
+<style>
+  :root, :root[data-theme="dark"] { color-scheme:dark; --bg:#0e0e12; --fg:#eaeaea; --muted:#94949d; --accent:#6b8aff; }
+  :root[data-theme="light"] { color-scheme:light; --bg:#ffffff; --fg:#111111; --muted:#555555; --accent:#3b5bff; }
+  * { margin:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  body {
+    background:var(--bg); color:var(--fg);
+    font-family:"Hanken Grotesk", system-ui, sans-serif;
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; padding:24px;
+  }
+  .wrap { max-width:380px; }
+  .code {
+    font-family:"Bricolage Grotesque", sans-serif; font-weight:800;
+    font-size:clamp(48px, 12vw, 76px); letter-spacing:-2px; color:var(--accent);
+    line-height:1;
+  }
+  h1 { font-size:16px; font-weight:600; margin:14px 0 6px; }
+  p { font-size:14px; color:var(--muted); line-height:1.5; margin:0 0 22px; }
+  a {
+    display:inline-flex; align-items:center; gap:6px;
+    color:var(--accent); text-decoration:none; font-size:14px; font-weight:600;
+    border:1px solid var(--accent); border-radius:999px; padding:8px 18px;
+    transition:opacity .15s ease;
+  }
+  a:hover { opacity:.8; }
+  @media (prefers-reduced-motion: no-preference) {
+    .code { animation: drift 5s ease-in-out infinite; }
+    @keyframes drift { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-4px); } }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="code" aria-hidden="true">404</div>
+    <h1>This page drifted off.</h1>
+    <p>Nothing lives at this address. The rest of the site is still where you left it.</p>
+    <a href="/">← Back home</a>
+  </div>
+</body>
+</html>
