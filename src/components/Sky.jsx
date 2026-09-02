@@ -1,64 +1,4 @@
-import { useMemo } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-
-// Deterministic seeded values (mulberry32) so petals keep their timings across
-// renders and theme toggles.
-function seeded(seed) {
-  let s = seed >>> 0;
-  return () => {
-    s = (s + 0x6d2b79f5) | 0;
-    let t = Math.imul(s ^ (s >>> 15), 1 | s);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// A few slow sakura petals drifting down through the hero, swaying as they go.
-function Petals() {
-  const petals = useMemo(() => {
-    const rand = seeded(20260902);
-    return Array.from({ length: 9 }, () => {
-      const size = +(6 + rand() * 5).toFixed(1);
-      return {
-        left: +(rand() * 100).toFixed(2),
-        size,
-        dur: +(11 + rand() * 8).toFixed(1),
-        delay: +(-rand() * 18).toFixed(1),
-        drift: Math.round(18 + rand() * 34) * (rand() > 0.5 ? 1 : -1),
-        spin: rand() > 0.5 ? 1 : -1,
-      };
-    });
-  }, []);
-  return (
-    <div className="petals" aria-hidden="true">
-      {petals.map((p, i) => (
-        <span
-          key={i}
-          className="petal"
-          style={{
-            left: `${p.left}%`,
-            width: p.size,
-            height: p.size,
-            "--drift": `${p.drift}px`,
-            "--spin": `${p.spin * 540}deg`,
-            animationDuration: `${p.dur}s`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// Two shooting stars that streak across the night sky now and then (dark only).
-function Shooting() {
-  return (
-    <div className="shooting" aria-hidden="true">
-      <span className="shoot s1" />
-      <span className="shoot s2" />
-    </div>
-  );
-}
 
 // Very chunky, wide pixel cumulus on a coarse grid (few, big blocks) — a
 // lighter crown band, a darker underside band. Crisp edges keep it firmly
@@ -191,8 +131,6 @@ export default function Sky({ theme, onToggleTheme }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Shooting />
-          <Petals />
           {/* One cluster, right by the moon — it drifts as a whole so the
               clouds stay together instead of scattering across the sky. */}
           <motion.div className="cloudset" animate={drift}>

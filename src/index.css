@@ -77,39 +77,6 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
    stays mostly visible; pointer-events:none keeps the toggle clickable. */
 .sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:7; pointer-events:none; }
 
-/* Sakura petals drifting down through the hero, swaying as they fall. */
-.petals { position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden; }
-.petal { position:absolute; top:-24px; background:var(--sakura); border-radius:62% 0 62% 0;
-  will-change:transform, opacity; animation-name:fall; animation-timing-function:linear;
-  animation-iteration-count:infinite; }
-@keyframes fall {
-  0%   { transform:translate(0, -24px) rotate(0); opacity:0; }
-  8%   { opacity:.6; }
-  25%  { transform:translate(var(--drift,24px), 24vh) rotate(calc(var(--spin) * .25)); }
-  50%  { transform:translate(0, 50vh) rotate(calc(var(--spin) * .5)); }
-  75%  { transform:translate(var(--drift,24px), 76vh) rotate(calc(var(--spin) * .75)); }
-  92%  { opacity:.55; }
-  100% { transform:translate(0, 104vh) rotate(var(--spin)); opacity:0; }
-}
-
-/* Shooting stars — a bright head with a fading tail, streaking now and then. */
-.shooting { position:absolute; inset:0; z-index:0; pointer-events:none; opacity:1; transition:opacity .5s ease; }
-:root[data-theme="light"] .shooting { opacity:0; }
-.shoot { position:absolute; width:90px; height:2px; border-radius:2px;
-  background:linear-gradient(90deg, #ffffff, rgba(200,214,255,.5) 30%, transparent);
-  filter:drop-shadow(0 0 4px rgba(200,218,255,.8)); opacity:0; }
-.shoot::after { content:""; position:absolute; left:-1px; top:-1px; width:4px; height:4px;
-  border-radius:50%; background:#fff; box-shadow:0 0 6px rgba(210,224,255,.9); }
-.shoot.s1 { top:9%; left:74%; transform:rotate(28deg); animation:shoot 15s ease-in infinite; }
-.shoot.s2 { top:4%; left:52%; transform:rotate(20deg); animation:shoot 15s ease-in infinite; animation-delay:8.5s; }
-@keyframes shoot {
-  0%   { opacity:0; transform:translate(0,0) rotate(24deg) scaleX(.3); }
-  2%   { opacity:1; }
-  9%   { opacity:1; transform:translate(-340px, 150px) rotate(24deg) scaleX(1); }
-  12%  { opacity:0; transform:translate(-360px, 160px) rotate(24deg) scaleX(1); }
-  100% { opacity:0; transform:translate(-360px, 160px) rotate(24deg); }
-}
-@media (prefers-reduced-motion:reduce) { .petals, .shooting { display:none; } }
 /* Pixel cluster at the moon: the big cloud's crown laps over the moon's bottom,
    the puff sits apart lower-left; they drift together. */
 .cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 20px);
