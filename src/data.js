@@ -47,6 +47,7 @@ export const competitions = [
     name: "Olimpiada Națională de Inteligență Artificială",
     tagTop: "Bronze",
     tagSub: "National",
+    medal: "bronze",
     desc:
       "Romania's national AI olympiad, run by the Ministry of Education and the national AI hub. A timed 4-hour contest where you build and train models scored against held-out data. Bronze medal at the national final, April 2026.",
     link: { label: "national results", href: "https://olimpiada-ai.ro/ro/rezultate/nationala" },
@@ -72,9 +73,9 @@ export const competitions = [
   {
     id: "orbit-wars",
     name: "Kaggle · Orbit Wars",
-    orbit: true,
     tagTop: "288th",
     tagSub: "of 4,730",
+    medal: "bronze",
     desc:
       "A Kaggle simulation competition: program a bot for a real-time strategy game where fleets capture planets orbiting a sun, ranked on a skill ladder of live 1v1 and 4-player matches. My agent was a tensorized planner, tuned on real ladder losses rather than self-play. 288th of 4,730 teams.",
     links: [

@@ -19,24 +19,8 @@ function Reveal({ children, i = 0 }) {
   );
 }
 
-// Section label with an accent underline that sweeps in when scrolled into view.
 function Eyebrow({ children }) {
-  const reduce = useReducedMotion();
-  return (
-    <motion.h2
-      className="eyebrow"
-      initial="rest"
-      whileInView="in"
-      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
-    >
-      {children}
-      <motion.span
-        className="eyebrow-line"
-        variants={{ rest: { scaleX: reduce ? 1 : 0 }, in: { scaleX: 1 } }}
-        transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
-      />
-    </motion.h2>
-  );
+  return <h2 className="eyebrow">{children}</h2>;
 }
 
 // Small right arrow that nudges forward on hover — the "go here" affordance.
@@ -49,22 +33,21 @@ function Go({ className = "go" }) {
   );
 }
 
-// A little pixel medal for the Competitions gutter, tinted by tier read off the
-// rank label (bronze / mention / rank).
-function Medal({ top = "" }) {
-  const t = /bronze/i.test(top) ? "bronze"
-    : /silver/i.test(top) ? "silver"
-    : /gold/i.test(top) ? "gold"
-    : /mention/i.test(top) ? "mention"
-    : "rank";
-  const disc = [[1, 4, 4], [2, 3, 6], [3, 2, 8], [4, 2, 8], [5, 2, 8], [6, 2, 8], [7, 3, 6], [8, 4, 4]];
+// A little pixel bronze medal for the Competitions gutter — a ribbon and a
+// coin with an engraved star. Only shown where an actual medal was won.
+function Medal() {
+  const disc = [[6, 4, 4], [7, 3, 6], [8, 2, 8], [9, 2, 8], [10, 2, 8], [11, 2, 8], [12, 3, 6], [13, 4, 4]];
+  const star = [[5, 8, 2, 1], [4, 9, 4, 1], [5, 10, 1, 1], [7, 10, 1, 1]];
   return (
-    <svg className={`medal m-${t}`} viewBox="0 0 12 12" shapeRendering="crispEdges" width="15" height="15" aria-hidden="true">
+    <svg className="medal" viewBox="0 0 12 16" shapeRendering="crispEdges" width="15" height="20" aria-hidden="true">
+      <g className="medal-ribbon"><rect x="3" y="0" width="2" height="7" /><rect x="7" y="0" width="2" height="7" /></g>
       <g className="medal-disc">
         {disc.map(([y, x, w], i) => <rect key={i} x={x} y={y} width={w} height="1" />)}
       </g>
-      <rect className="medal-hi" x="3" y="2" width="2" height="1" />
-      <rect className="medal-core" x="5" y="4" width="2" height="2" />
+      <rect className="medal-hi" x="3" y="7" width="2" height="1" />
+      <g className="medal-star">
+        {star.map(([x, y, w, h], i) => <rect key={i} x={x} y={y} width={w} height={h} />)}
+      </g>
     </svg>
   );
 }
@@ -263,7 +246,7 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
-              emblem={<Medal top={c.tagTop} />}
+              emblem={c.medal ? <Medal /> : null}
             />
           )}
         />

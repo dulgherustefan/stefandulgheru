@@ -72,6 +72,19 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
    and covers a little of its lower edge, like the inspiration site. The moon
    stays mostly visible; pointer-events:none keeps the toggle clickable. */
 .sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:7; pointer-events:none; }
+
+/* Pixel starfield in the upper hero — dark theme only, fades out in light. */
+.stars { position:absolute; inset:0; z-index:0; pointer-events:none;
+  opacity:1; transition:opacity .5s ease; }
+:root[data-theme="light"] .stars { opacity:0; }
+.star { position:absolute; background:#e8eeff; opacity:.6;
+  box-shadow:0 0 3px rgba(190,210,255,.5); animation:twinkle 3s ease-in-out infinite; }
+.star.bright { background:#ffffff; box-shadow:0 0 6px rgba(200,218,255,.85); }
+.star.spark::before, .star.spark::after { content:""; position:absolute; background:inherit; }
+.star.spark::before { left:50%; top:-3px; width:1px; height:calc(100% + 6px); transform:translateX(-50%); }
+.star.spark::after { top:50%; left:-3px; height:1px; width:calc(100% + 6px); transform:translateY(-50%); }
+@keyframes twinkle { 0%,100% { opacity:.28; } 50% { opacity:.9; } }
+@media (prefers-reduced-motion:reduce) { .star { animation:none; opacity:.55; } }
 /* Pixel cluster at the moon: the big cloud's crown laps over the moon's bottom,
    the puff sits apart lower-left; they drift together. */
 .cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 20px);
@@ -152,20 +165,15 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
 .sec { margin-top: clamp(2.4rem,6vw,3.2rem); }
 /* Matches their .post-list-title/.photo-scroller-label label style exactly:
    11px mono, .11em tracking, uppercase, weight 500. */
-.eyebrow { position:relative; display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.11em;
-  text-transform:uppercase; color:var(--faint); margin:0 0 1.25rem; font-weight:500; }
-.eyebrow-line { position:absolute; left:0; bottom:-7px; width:26px; height:2px; border-radius:1px;
-  background:var(--accent); transform-origin:left center; display:block; }
+.eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--faint); margin:0 0 1.25rem; font-weight:500; }
 
-/* Pixel medal in the Competitions gutter, tinted by tier. */
-.medal { image-rendering:pixelated; display:block; margin-bottom:.45rem; }
-.medal-disc { fill:var(--medal); }
-.m-bronze .medal-disc { fill:#c9823c; }
-.m-silver .medal-disc { fill:#b7bec9; }
-.m-gold .medal-disc, .m-mention .medal-disc { fill:#e6c15c; }
-.m-rank .medal-disc { fill:var(--accent); }
-.medal-hi { fill:#ffffff; opacity:.5; }
-.medal-core { fill:rgba(0,0,0,.22); }
+/* Pixel bronze medal in the Competitions gutter. */
+.medal { image-rendering:pixelated; display:block; margin-bottom:.4rem; }
+.medal-disc { fill:#c88a3e; }
+.medal-ribbon { fill:#9c5e5e; }
+.medal-hi { fill:#ffe3c2; opacity:.6; }
+.medal-star { fill:#7a4a1e; }
 
 /* Pixel brand glyphs (Elsewhere). Punched holes use the page background. */
 .svc { image-rendering:pixelated; display:block; }
