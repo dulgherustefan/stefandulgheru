@@ -60,20 +60,15 @@ a { color:inherit; text-decoration:none; }
 /* Anchored to the top of the page (the hero), NOT the viewport — so the moon
    and clouds live up at the name and scroll away with the hero instead of
    trailing the reader down the page. */
-/* z-index above .celestial (6) so the big cloud drifts in front of the moon
-   and covers a little of it, like the reference. pointer-events:none keeps the
-   toggle clickable underneath. */
-.sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:7; pointer-events:none; }
-/* Cluster beside the toggle: a large cloud whose upper-left overlaps the moon,
-   and a smaller puff apart to the lower-left, drifting together. */
-.cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 22px);
-  right:calc(clamp(3rem,26vw,30rem) - 82px); width:196px; height:120px; }
-.cloud { position:absolute; }
-.cloud.c1 { top:0; right:0; width:150px; opacity:.96; }
-.cloud.c2 { top:58px; left:0; width:96px; opacity:.9; }
-.cl-body { fill:var(--cloud); }
-.cl-ledge { fill:color-mix(in oklab, var(--cloud) 72%, #384a7a); }
-.cl-hi { fill:#ffffff; opacity:.42; }
+.sky { position:absolute; top:0; left:0; right:0; height:100vh; z-index:0; pointer-events:none; }
+/* Small pixel cluster beside the toggle: the big cloud tucks just under the
+   moon (moon stays in front), the puff sits apart lower-left; they drift as a
+   group. */
+.cloudset { position:absolute; top:calc(clamp(1rem,3vw,1.9rem) + 26px);
+  right:calc(clamp(3rem,26vw,30rem) - 18px); width:112px; height:76px; }
+.cloud { position:absolute; color:var(--cloud); image-rendering:pixelated; }
+.cloud.c1 { top:0; right:0; width:74px; opacity:.9; }
+.cloud.c2 { top:40px; left:0; width:46px; opacity:.65; }
 
 /* The sun/moon toggle: a sibling of .sky (its own stacking context) so its
    z-index clears .wrap for real. Absolute at the top, in the gap to the right
@@ -242,9 +237,9 @@ footer { margin-top:3.2rem; padding-top:1.2rem; border-top:1px solid var(--line)
 @media (max-width:600px) {
   .celestial { top:clamp(.8rem,4vw,1.4rem); right:6%; width:38px; height:38px; }
   .celestial-inner { width:38px; height:38px; }
-  .cloudset { top:calc(clamp(.8rem,4vw,1.4rem) - 6px); right:1%; width:104px; height:62px; }
-  .cloud.c1 { width:76px; }
-  .cloud.c2 { width:46px; top:24px; }
+  .cloudset { top:calc(clamp(.8rem,4vw,1.4rem) + 4px); right:2%; width:92px; height:60px; }
+  .cloud.c1 { width:62px; }
+  .cloud.c2 { width:40px; top:32px; }
   .row { grid-template-columns:1fr; row-gap:.5rem; }
   .links a { grid-template-columns:1fr auto; }
   .links .lkey { display:none; }
