@@ -58,8 +58,9 @@ export default function App() {
 
   return (
     <>
+      <a className="skip" href="#main">Skip to content</a>
       <Sky theme={theme} onToggleTheme={toggleTheme} />
-      <main className="wrap" id="main">
+      <main className="wrap" id="main" tabIndex={-1}>
         <MinimalView />
       </main>
     </>
