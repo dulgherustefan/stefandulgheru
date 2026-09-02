@@ -1,61 +1,39 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Builds a fluffy cumulus silhouette on a fine pixel grid: each "bump" is a
-// circle in column-space (bumpy top), the shape is flat-cut at baseH (flat
-// bottom), and the result is compressed into 1px-tall row rects so it still
-// renders as crisp, distinct pixels — just far more of them than a
-// hand-blocked grid, so the curve reads smooth without losing the pixel-art
-// edge. Returns the rects plus the silhouette's own bounding box (for the
-// clip-path that carries the shading bands).
-function pixelCloud(w, baseH, bumps) {
-  const heightAt = (x) => {
-    let h = 0;
-    for (const [cx, r] of bumps) {
-      const dx = x - cx;
-      if (Math.abs(dx) < r) h = Math.max(h, Math.round(Math.sqrt(r * r - dx * dx)));
-    }
-    return h;
-  };
-  const rows = [];
-  for (let y = 0; y < baseH; y++) {
-    let start = null;
-    for (let x = 0; x <= w; x++) {
-      const on = x < w && baseH - heightAt(x) <= y;
-      if (on && start === null) start = x;
-      if (!on && start !== null) { rows.push([y, start, x - start]); start = null; }
-    }
-  }
-  return rows;
-}
-
-function CloudShape({ rects, w, h, id }) {
+// Smooth weather-icon cumulus, like the reference: a darker rounded "shelf"
+// bar at the base with a lighter fluffy body sitting on top, plus a soft
+// highlight on the crown. Fills are theme-aware (see .cl-* in CSS).
+function Cloud() {
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} shapeRendering="crispEdges" aria-hidden="true" width="100%">
-      <defs>
-        <clipPath id={id}>
-          {rects.map(([y, x, rw], i) => <rect key={i} x={x} y={y} width={rw} height="1" />)}
-        </clipPath>
-      </defs>
-      <g clipPath={`url(#${id})`}>
-        <rect x="0" y="0" width={w} height={h} fill="currentColor" />
-        <rect x="0" y="0" width={w} height={h * 0.5} fill="#ffffff" opacity="0.4" />
-        <rect x="0" y={h * 0.78} width={w} height={h * 0.22} fill="#0b1020" opacity="0.16" />
-      </g>
+    <svg viewBox="0 0 60 40" aria-hidden="true" width="100%">
+      <rect className="cl-ledge" x="6" y="23" width="49" height="13" rx="6.5" />
+      <path
+        className="cl-body"
+        d="M9 33C4 33 0 29 0 24.2c0-4.4 3.4-7.9 7.6-8 .5-7 6.4-12.4 13.5-11.8C24.6.9 30.7.7 34.7 4.2c2.4-1.7 5.7-1.8 8.3-.2C50.2 2.9 56.4 8 57 15.1c1.8 1 3 3 3 5.3 0 6.9-5 12.6-11.9 12.6H9Z"
+      />
+      <path
+        className="cl-hi"
+        d="M21.1 5.2c3.2-.3 6.3.9 8.5 3.1-3.4.4-6.3 2.5-7.8 5.5-1.6-2.3-4.3-3.6-7.1-3.3.9-3 3.4-5.1 6.4-5.3Z"
+      />
     </svg>
   );
 }
 
-// Fluffy pixel cumulus: three overlapping bumps on a fine grid, shaded with a
-// clipped highlight crown and a darkened underside for form.
-const CLOUD_RECTS = pixelCloud(56, 24, [[14, 9], [26, 12], [40, 10], [50, 7]]);
-function Cloud() {
-  return <CloudShape rects={CLOUD_RECTS} w={56} h={24} id="cloud-main" />;
-}
-
 // Smaller companion puff, same construction, scaled down.
-const PUFF_RECTS = pixelCloud(38, 17, [[9, 6], [18, 8], [29, 6]]);
 function Puff() {
-  return <CloudShape rects={PUFF_RECTS} w={38} h={17} id="cloud-puff" />;
+  return (
+    <svg viewBox="0 0 44 28" aria-hidden="true" width="100%">
+      <rect className="cl-ledge" x="4" y="16" width="36" height="10" rx="5" />
+      <path
+        className="cl-body"
+        d="M7 24c-3.3 0-6-2.7-6-6.1 0-3.1 2.4-5.6 5.4-5.7.4-4.9 4.6-8.7 9.6-8.3 2.5-2.6 6.7-2.7 9.4-.3 1.8-1.1 4-1.1 5.9 0 4.7 1 8.1 5.2 8.1 10 0 3.3-2.7 6-6 6H7Z"
+      />
+      <path
+        className="cl-hi"
+        d="M15 3.9c2.3-.2 4.5.7 6 2.3-2.4.3-4.5 1.8-5.5 3.9-1.2-1.6-3.1-2.6-5.1-2.4.6-2.1 2.4-3.6 4.6-3.8Z"
+      />
+    </svg>
+  );
 }
 
 // Smooth crescent-lit moon: warm cream sphere shaded with a soft terminator,
