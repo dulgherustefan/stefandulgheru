@@ -8,8 +8,8 @@ export function Avatar() {
   const reduce = useReducedMotion();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const rotateX = useSpring(useTransform(py, (v) => v * -12), { stiffness: 220, damping: 18 });
-  const rotateY = useSpring(useTransform(px, (v) => v * 12), { stiffness: 220, damping: 18 });
+  const rotateX = useSpring(useTransform(py, (v) => v * -22), { stiffness: 170, damping: 15 });
+  const rotateY = useSpring(useTransform(px, (v) => v * 22), { stiffness: 170, damping: 15 });
 
   const onMove = (e) => {
     if (reduce) return;
@@ -24,7 +24,7 @@ export function Avatar() {
       className="avatar"
       onPointerMove={onMove}
       onPointerLeave={reset}
-      style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 520 }}
+      style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 420 }}
     >
       {ok ? (
         <img src="/me.jpg" width="320" height="320" alt="Ștefan Dulgheru, full-length portrait" onError={() => setOk(false)} />
