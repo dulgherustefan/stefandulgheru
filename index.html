@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-mode="minimal" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -57,13 +57,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
 <script>
-  // set theme/mode before paint to avoid a flash
+  // set theme before paint to avoid a flash
   (function () {
     try {
       var t = localStorage.getItem("theme");
       if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
-      var m = localStorage.getItem("mode");
-      if (m === "creative" || m === "minimal") document.documentElement.setAttribute("data-mode", m);
     } catch (e) {}
   })();
 </script>
