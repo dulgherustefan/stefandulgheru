@@ -112,12 +112,11 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
 /* ---------- minimal hero ---------- */
 .hero { padding: clamp(1rem,4vw,1.8rem) 0 0; }
 .idrow { display:flex; align-items:center; gap:1.35rem; }
-/* Same footprint as creativeatishay.in's own .profile-avatar (106px square,
-   12px radius, 4px frame) — cropped wide enough in the source photo to keep
-   him head-to-toe inside that square rather than a tight headshot pan. */
-.avatar { width:106px; height:106px; flex:none; border-radius:12px; overflow:hidden;
+/* Clean rounded-square photo with a single thin hairline border and a soft
+   shadow — no heavy frame, closer to the reference. */
+.avatar { width:106px; height:106px; flex:none; border-radius:14px; overflow:hidden;
   background:radial-gradient(120% 120% at 30% 20%, color-mix(in oklab, var(--fg) 8%, var(--bg-2)), var(--bg-2));
-  border:4px solid var(--bg); box-shadow:0 0 0 1px var(--line-2), var(--shadow);
+  border:1px solid var(--line-2); box-shadow:0 5px 18px rgba(0,0,0,.18);
   display:grid; place-items:center;
   font-family:var(--display); font-weight:700; font-size:1.7rem; color:var(--fg); line-height:1; }
 .avatar img { width:100%; height:100%; object-fit:cover; object-position:50% 50%; display:block; }
@@ -250,7 +249,10 @@ footer { margin-top:3.2rem; padding-top:1.2rem; border-top:1px solid var(--line)
   .cloudset { top:calc(clamp(.8rem,4vw,1.4rem) + 12px); right:1%; width:116px; height:60px; }
   .cloud.c1 { width:82px; }
   .cloud.c2 { width:50px; top:6px; }
-  .row { grid-template-columns:1fr; row-gap:.5rem; }
+  /* Keep the accent rank/place in a left gutter on phones too, just tighter. */
+  .row { grid-template-columns:4.8rem 1fr; column-gap:.85rem; }
+  .gtop { font-size:13px; }
+  .gsub { font-size:9.5px; margin-top:.3rem; }
   .links a { grid-template-columns:1fr auto; }
   .links .lkey { display:none; }
 }
