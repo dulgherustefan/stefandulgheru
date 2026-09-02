@@ -35,11 +35,13 @@ function Go({ className = "go" }) {
 
 // One list row: an accent stat in the gutter, a title that links straight to
 // the primary destination, then any extra links below (code, write-ups, etc.).
-// Clicking anywhere on the row opens the primary link — except a nested <a>
-// (an extra link), which handles its own click natively so it can still go
-// somewhere else, middle-click, or right-click-open normally.
+// Pointer convenience: clicking anywhere on the row opens the primary link.
+// This is a mouse-only enhancement — the real title <a> carries the accessible
+// name and keyboard/screen-reader semantics, so the row itself takes no link
+// role. A click that lands on a nested <a> or on selected text is left alone.
 function openRow(e, href) {
   if (!href || e.target.closest("a")) return;
+  if (window.getSelection && String(window.getSelection())) return;
   window.open(href, "_blank", "noopener,noreferrer");
 }
 
@@ -50,15 +52,6 @@ function Row({ gtop, gsub, name, desc, primary, extras = [], i }) {
       <article
         className={`row${href ? " row-linked" : ""}`}
         onClick={href ? (e) => openRow(e, href) : undefined}
-        onKeyDown={
-          href
-            ? (e) => {
-                if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openRow(e, href); }
-              }
-            : undefined
-        }
-        role={href ? "link" : undefined}
-        tabIndex={href ? 0 : undefined}
       >
         <div className="gut">
           <div className="gtop">{gtop}</div>

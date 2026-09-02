@@ -3,21 +3,6 @@ import { motion, useReducedMotion } from "framer-motion";
 import { githubUser } from "../data.js";
 import { Arrow } from "./Bits.jsx";
 
-// Deterministic fallback so the graph still reads if the API is unreachable.
-function fallbackDays() {
-  const days = [];
-  const today = new Date();
-  for (let i = 363; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const seed = (i * 1103515245 + 12345) & 0x7fffffff;
-    const r = (seed % 100) / 100;
-    const level = r > 0.82 ? 4 : r > 0.68 ? 3 : r > 0.5 ? 2 : r > 0.3 ? 1 : 0;
-    days.push({ date: d.toISOString().slice(0, 10), level });
-  }
-  return days;
-}
-
 function toColumns(days) {
   if (!days.length) return [];
   const cells = [];
@@ -45,15 +30,17 @@ export default function GithubGraph() {
           setDays(contribs.slice(-364));
           const t = json.total && (json.total.lastYear || Object.values(json.total)[0]);
           setTotal(t || null);
-        } else setDays(fallbackDays());
+        } else setDays("error");
       })
-      .catch(() => alive && setDays(fallbackDays()));
+      // Never fabricate activity: if the real data can't load, say so and link out.
+      .catch(() => alive && setDays("error"));
     return () => {
       alive = false;
     };
   }, []);
 
-  const cols = toColumns(days || []);
+  const failed = days === "error";
+  const cols = toColumns(Array.isArray(days) ? days : []);
 
   return (
     <section className="sec" aria-labelledby="gh-h">
@@ -64,37 +51,46 @@ export default function GithubGraph() {
         </a>
       </div>
 
-      <div className="gh-graphwrap">
-        <div className="gh-graph" role="img" aria-label={total ? `${total} contributions in the last year` : "GitHub contributions"}>
-          {cols.map((col, ci) => (
-            <div className="gh-col" key={ci}>
-              {col.map((cell, ri) => (
-                <motion.span
-                  key={ri}
-                  className={`gh-cell lvl-${cell ? cell.level : 0}`}
-                  initial={reduce ? false : { opacity: 0, scale: 0.4 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.25, delay: reduce ? 0 : Math.min(ci * 0.008, 0.6) }}
-                />
+      {failed ? (
+        <p className="gh-note">
+          The contribution graph couldn't load right now — it's on{" "}
+          <a href={`https://github.com/${githubUser}`} target="_blank" rel="noreferrer">GitHub</a>.
+        </p>
+      ) : (
+        <>
+          <div className="gh-graphwrap">
+            <div className="gh-graph" role="img" aria-label={total ? `${total} contributions in the last year` : "GitHub contributions"}>
+              {cols.map((col, ci) => (
+                <div className="gh-col" key={ci}>
+                  {col.map((cell, ri) => (
+                    <motion.span
+                      key={ri}
+                      className={`gh-cell lvl-${cell ? cell.level : 0}`}
+                      initial={reduce ? false : { opacity: 0, scale: 0.4 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.25, delay: reduce ? 0 : Math.min(ci * 0.008, 0.6) }}
+                    />
+                  ))}
+                </div>
               ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
 
-      <div className="gh-legend">
-        {total != null && <span className="gh-total">{total} contributions</span>}
-        <span className="gh-scale">
-          Less
-          <span className="gh-cell lvl-0" />
-          <span className="gh-cell lvl-1" />
-          <span className="gh-cell lvl-2" />
-          <span className="gh-cell lvl-3" />
-          <span className="gh-cell lvl-4" />
-          More
-        </span>
-      </div>
+          <div className="gh-legend">
+            {total != null && <span className="gh-total">{total} contributions</span>}
+            <span className="gh-scale">
+              Less
+              <span className="gh-cell lvl-0" />
+              <span className="gh-cell lvl-1" />
+              <span className="gh-cell lvl-2" />
+              <span className="gh-cell lvl-3" />
+              <span className="gh-cell lvl-4" />
+              More
+            </span>
+          </div>
+        </>
+      )}
     </section>
   );
 }
