@@ -6,7 +6,7 @@ export function Avatar() {
   return (
     <div className="avatar">
       {ok ? (
-        <img src="/me.jpg" alt="Ștefan Dulgheru, full-length portrait" onError={() => setOk(false)} />
+        <img src="/me.jpg" width="320" height="320" alt="Ștefan Dulgheru, full-length portrait" onError={() => setOk(false)} />
       ) : (
         <span aria-hidden="true">Ș</span>
       )}
