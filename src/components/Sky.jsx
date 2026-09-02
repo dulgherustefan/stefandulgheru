@@ -1,56 +1,50 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Builds a cumulus silhouette on a fine pixel grid: each "bump" is a circle in
-// column-space (bumpy top), the shape is flat-cut at baseH (flat bottom), and
-// the result is compressed into 1px-tall row rects so it renders as crisp,
-// distinct pixels — many of them, so the curve reads without losing the
-// pixel-art edge.
-function pixelCloud(w, baseH, bumps) {
-  const heightAt = (x) => {
-    let h = 0;
-    for (const [cx, r] of bumps) {
-      const dx = x - cx;
-      if (Math.abs(dx) < r) h = Math.max(h, Math.round(Math.sqrt(r * r - dx * dx)));
-    }
-    return h;
-  };
-  const rows = [];
-  for (let y = 0; y < baseH; y++) {
-    let start = null;
-    for (let x = 0; x <= w; x++) {
-      const on = x < w && baseH - heightAt(x) <= y;
-      if (on && start === null) start = x;
-      if (!on && start !== null) { rows.push([y, start, x - start]); start = null; }
-    }
-  }
-  return rows;
-}
-
-function CloudShape({ rects, w, h, id }) {
+// Chunky, wide pixel cumulus: a coarse stepped-block silhouette (few, big
+// pixels) with a lighter crown band and a darker underside for form. Crisp
+// edges keep it firmly pixel-art rather than a soft blob.
+function Cloud() {
+  const base = [
+    [2, 10, 6], [3, 7, 12], [4, 5, 16], [5, 3, 20],
+    [6, 2, 23], [7, 1, 24], [8, 1, 24], [9, 2, 22],
+  ];
+  const light = [[2, 10, 3], [3, 7, 4], [4, 5, 3], [5, 3, 3], [6, 2, 2]];
+  const shade = [[8, 1, 2], [8, 18, 7], [9, 2, 22]];
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} shapeRendering="crispEdges" aria-hidden="true" width="100%">
-      <defs>
-        <clipPath id={id}>
-          {rects.map(([y, x, rw], i) => <rect key={i} x={x} y={y} width={rw} height="1" />)}
-        </clipPath>
-      </defs>
-      <g clipPath={`url(#${id})`}>
-        <rect x="0" y="0" width={w} height={h} fill="currentColor" />
-        <rect x="0" y="0" width={w} height={h * 0.5} fill="#ffffff" opacity="0.4" />
-        <rect x="0" y={h * 0.78} width={w} height={h * 0.22} fill="#0b1020" opacity="0.16" />
+    <svg viewBox="0 0 26 13" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+      <g fill="currentColor">
+        {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#ffffff" opacity="0.55">
+        {light.map(([y, x, w], i) => <rect key={`l${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#0b1020" opacity="0.14">
+        {shade.map(([y, x, w], i) => <rect key={`s${i}`} x={x} y={y} width={w} height="1" />)}
       </g>
     </svg>
   );
 }
 
-// Fluffy pixel cumulus + a smaller companion puff.
-const CLOUD_RECTS = pixelCloud(56, 24, [[14, 9], [26, 12], [40, 10], [50, 7]]);
-function Cloud() {
-  return <CloudShape rects={CLOUD_RECTS} w={56} h={24} id="cloud-main" />;
-}
-const PUFF_RECTS = pixelCloud(38, 17, [[9, 6], [18, 8], [29, 6]]);
+// Smaller, wide companion puff, same coarse construction.
 function Puff() {
-  return <CloudShape rects={PUFF_RECTS} w={38} h={17} id="cloud-puff" />;
+  const base = [
+    [2, 6, 4], [3, 4, 9], [4, 2, 13], [5, 1, 15], [6, 1, 15], [7, 2, 13],
+  ];
+  const light = [[2, 6, 2], [3, 4, 3], [4, 2, 2]];
+  const shade = [[6, 10, 5], [7, 2, 13]];
+  return (
+    <svg viewBox="0 0 18 10" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+      <g fill="currentColor">
+        {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#ffffff" opacity="0.55">
+        {light.map(([y, x, w], i) => <rect key={`l${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <g fill="#0b1020" opacity="0.14">
+        {shade.map(([y, x, w], i) => <rect key={`s${i}`} x={x} y={y} width={w} height="1" />)}
+      </g>
+    </svg>
+  );
 }
 
 // Smooth crescent-lit moon: warm cream sphere shaded with a soft terminator,
