@@ -140,13 +140,18 @@ export default function Sky({ theme, onToggleTheme }) {
         </motion.div>
       </AnimatePresence>
 
-      {/* Sibling of .sky, not a child of it — so its z-index clears .wrap. */}
-      <button
+      {/* Sibling of .sky, not a child of it — so its z-index clears .wrap. The
+          button itself rises into place once on load (a moonrise); the inner
+          swaps the icon on every toggle. */}
+      <motion.button
         type="button"
         className={`celestial ${isDark ? "is-moon" : "is-sun"}`}
         onClick={onToggleTheme}
         aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
         title={isDark ? "Light mode" : "Dark mode"}
+        initial={reduce ? false : { y: 48, opacity: 0, scale: 0.9 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ duration: 1.15, ease: [0.16, 0.84, 0.3, 1], delay: 0.25 }}
       >
         <motion.span
           key={isDark ? "moon" : "sun"}
@@ -157,7 +162,7 @@ export default function Sky({ theme, onToggleTheme }) {
         >
           {isDark ? <Moon /> : <Sun />}
         </motion.span>
-      </button>
+      </motion.button>
     </>
   );
 }

@@ -3,6 +3,7 @@ import { flushSync } from "react-dom";
 import { useLenis } from "./hooks/useLenis.js";
 import Sky from "./components/Sky.jsx";
 import MinimalView from "./components/MinimalView.jsx";
+import { BackToTop } from "./components/Bits.jsx";
 
 function readAttr(name, fallback) {
   const v = document.documentElement.getAttribute(name);
@@ -18,7 +19,13 @@ export default function App() {
   const [theme, setTheme] = useState(() => readAttr("data-theme", "dark"));
   const themeRef = useRef(theme);
   themeRef.current = theme;
-  useLenis();
+  const lenisRef = useLenis();
+
+  const scrollTop = () => {
+    const l = lenisRef.current;
+    if (l && !prefersReduced()) l.scrollTo(0, { duration: 1.1 });
+    else window.scrollTo({ top: 0, behavior: prefersReduced() ? "auto" : "smooth" });
+  };
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -59,10 +66,12 @@ export default function App() {
   return (
     <>
       <a className="skip" href="#main">Skip to content</a>
+      <div id="scroll-top-sentinel" className="scroll-sentinel" aria-hidden="true" />
       <Sky theme={theme} onToggleTheme={toggleTheme} />
       <main className="wrap" id="main" tabIndex={-1}>
         <MinimalView />
       </main>
+      <BackToTop onClick={scrollTop} />
       <div className="grain" aria-hidden="true" />
     </>
   );
