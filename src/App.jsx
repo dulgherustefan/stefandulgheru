@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { Analytics } from "@vercel/analytics/react";
 import { useLenis } from "./hooks/useLenis.js";
 import Sky from "./components/Sky.jsx";
 import MinimalView from "./components/MinimalView.jsx";
@@ -63,6 +64,7 @@ export default function App() {
       <main className="wrap" id="main" tabIndex={-1}>
         <MinimalView />
       </main>
+      <Analytics />
     </>
   );
 }
