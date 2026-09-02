@@ -11,10 +11,10 @@ export const profile = {
     [
       "National ",
       { lnk: "AI-olympiad", href: "https://olimpiada-ai.ro" },
-      " medalist and Kaggle competitor. Co-founded and built Vianu AI, the learning platform and curriculum for the school's AI club, and mentors it with two classmates.",
+      " medalist and Kaggle competitor. Co-founded and built Vianu AI, the learning platform and curriculum for the school's AI club, and teaches it with two classmates.",
     ],
     [
-      "Mostly self-taught, since AI is still new in Romanian schools.",
+      "Largely self-taught, since AI is still new as a school subject in Romania.",
     ],
   ],
 };
