@@ -8,8 +8,8 @@ export function Avatar() {
   const reduce = useReducedMotion();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
-  const rotateX = useSpring(useTransform(py, (v) => v * -32), { stiffness: 140, damping: 13 });
-  const rotateY = useSpring(useTransform(px, (v) => v * 32), { stiffness: 140, damping: 13 });
+  const rotateX = useSpring(useTransform(py, (v) => v * -40), { stiffness: 140, damping: 13 });
+  const rotateY = useSpring(useTransform(px, (v) => v * 40), { stiffness: 140, damping: 13 });
 
   const onMove = (e) => {
     if (reduce) return;
