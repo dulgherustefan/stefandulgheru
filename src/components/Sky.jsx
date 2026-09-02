@@ -1,49 +1,61 @@
 import { useMemo } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Deterministic seeded starfield (mulberry32) so positions stay put across
-// renders and theme toggles. Stars sit in the upper hero area; a few are bright
-// twinklers and a couple are 4-point sparkles. Dark theme only (see CSS).
-function makeStars(n, seed) {
+// Deterministic seeded values (mulberry32) so petals keep their timings across
+// renders and theme toggles.
+function seeded(seed) {
   let s = seed >>> 0;
-  const rand = () => {
+  return () => {
     s = (s + 0x6d2b79f5) | 0;
     let t = Math.imul(s ^ (s >>> 15), 1 | s);
     t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
-  return Array.from({ length: n }, () => {
-    const r = rand();
-    return {
-      x: +(rand() * 100).toFixed(2),
-      y: +(rand() * 70).toFixed(2),
-      size: r > 0.9 ? 3 : r > 0.6 ? 2 : 1,
-      bright: r > 0.86,
-      spark: r > 0.95,
-      dur: +(2.4 + rand() * 3.6).toFixed(2),
-      delay: +(rand() * 4.5).toFixed(2),
-    };
-  });
 }
 
-function Stars() {
-  const stars = useMemo(() => makeStars(54, 20260902), []);
+// A few slow sakura petals drifting down through the hero, swaying as they go.
+function Petals() {
+  const petals = useMemo(() => {
+    const rand = seeded(20260902);
+    return Array.from({ length: 9 }, () => {
+      const size = +(6 + rand() * 5).toFixed(1);
+      return {
+        left: +(rand() * 100).toFixed(2),
+        size,
+        dur: +(11 + rand() * 8).toFixed(1),
+        delay: +(-rand() * 18).toFixed(1),
+        drift: Math.round(18 + rand() * 34) * (rand() > 0.5 ? 1 : -1),
+        spin: rand() > 0.5 ? 1 : -1,
+      };
+    });
+  }, []);
   return (
-    <div className="stars" aria-hidden="true">
-      {stars.map((st, i) => (
+    <div className="petals" aria-hidden="true">
+      {petals.map((p, i) => (
         <span
           key={i}
-          className={`star${st.bright ? " bright" : ""}${st.spark ? " spark" : ""}`}
+          className="petal"
           style={{
-            left: `${st.x}%`,
-            top: `${st.y}%`,
-            width: st.size,
-            height: st.size,
-            animationDuration: `${st.dur}s`,
-            animationDelay: `${st.delay}s`,
+            left: `${p.left}%`,
+            width: p.size,
+            height: p.size,
+            "--drift": `${p.drift}px`,
+            "--spin": `${p.spin * 540}deg`,
+            animationDuration: `${p.dur}s`,
+            animationDelay: `${p.delay}s`,
           }}
         />
       ))}
+    </div>
+  );
+}
+
+// Two shooting stars that streak across the night sky now and then (dark only).
+function Shooting() {
+  return (
+    <div className="shooting" aria-hidden="true">
+      <span className="shoot s1" />
+      <span className="shoot s2" />
     </div>
   );
 }
@@ -179,7 +191,8 @@ export default function Sky({ theme, onToggleTheme }) {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Stars />
+          <Shooting />
+          <Petals />
           {/* One cluster, right by the moon — it drifts as a whole so the
               clouds stay together instead of scattering across the sky. */}
           <motion.div className="cloudset" animate={drift}>

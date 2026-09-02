@@ -63,6 +63,7 @@ export default function App() {
       <main className="wrap" id="main" tabIndex={-1}>
         <MinimalView />
       </main>
+      <div className="grain" aria-hidden="true" />
     </>
   );
 }
