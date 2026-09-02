@@ -19,8 +19,24 @@ function Reveal({ children, i = 0 }) {
   );
 }
 
+// Section label with an accent underline that sweeps in when scrolled into view.
 function Eyebrow({ children }) {
-  return <h2 className="eyebrow">{children}</h2>;
+  const reduce = useReducedMotion();
+  return (
+    <motion.h2
+      className="eyebrow"
+      initial="rest"
+      whileInView="in"
+      viewport={{ once: true, margin: "0px 0px -12% 0px" }}
+    >
+      {children}
+      <motion.span
+        className="eyebrow-line"
+        variants={{ rest: { scaleX: reduce ? 1 : 0 }, in: { scaleX: 1 } }}
+        transition={{ duration: 0.5, ease: [0.2, 0.7, 0.2, 1] }}
+      />
+    </motion.h2>
+  );
 }
 
 // Small right arrow that nudges forward on hover — the "go here" affordance.
@@ -31,6 +47,62 @@ function Go({ className = "go" }) {
       <path d="M12 5l7 7-7 7" />
     </svg>
   );
+}
+
+// A little pixel medal for the Competitions gutter, tinted by tier read off the
+// rank label (bronze / mention / rank).
+function Medal({ top = "" }) {
+  const t = /bronze/i.test(top) ? "bronze"
+    : /silver/i.test(top) ? "silver"
+    : /gold/i.test(top) ? "gold"
+    : /mention/i.test(top) ? "mention"
+    : "rank";
+  const disc = [[1, 4, 4], [2, 3, 6], [3, 2, 8], [4, 2, 8], [5, 2, 8], [6, 2, 8], [7, 3, 6], [8, 4, 4]];
+  return (
+    <svg className={`medal m-${t}`} viewBox="0 0 12 12" shapeRendering="crispEdges" width="15" height="15" aria-hidden="true">
+      <g className="medal-disc">
+        {disc.map(([y, x, w], i) => <rect key={i} x={x} y={y} width={w} height="1" />)}
+      </g>
+      <rect className="medal-hi" x="3" y="2" width="2" height="1" />
+      <rect className="medal-core" x="5" y="4" width="2" height="2" />
+    </svg>
+  );
+}
+
+// Pixel brand glyphs for the Elsewhere links. fg = solid, cut = punched holes
+// (page background), soft = translucent detail.
+function Glyph({ fg = [], cut = [], soft = [] }) {
+  return (
+    <svg className="svc" viewBox="0 0 16 16" shapeRendering="crispEdges" width="16" height="16" aria-hidden="true">
+      <g fill="currentColor">{fg.map(([x, y, w, h], i) => <rect key={i} x={x} y={y} width={w} height={h} />)}</g>
+      <g className="svc-cut">{cut.map(([x, y, w, h], i) => <rect key={i} x={x} y={y} width={w} height={h} />)}</g>
+      <g fill="#ffffff" opacity="0.5">{soft.map(([x, y, w, h], i) => <rect key={i} x={x} y={y} width={w} height={h} />)}</g>
+    </svg>
+  );
+}
+
+const SERVICE = {
+  email: {
+    fg: [[1, 4, 14, 8]],
+    soft: [[2, 5, 1, 1], [3, 6, 1, 1], [4, 7, 1, 1], [5, 8, 1, 1], [6, 8, 1, 1], [7, 8, 2, 1], [9, 8, 1, 1], [10, 8, 1, 1], [11, 7, 1, 1], [12, 6, 1, 1], [13, 5, 1, 1]],
+  },
+  github: {
+    fg: [[5, 3, 6, 1], [4, 4, 8, 1], [3, 5, 10, 4], [4, 9, 8, 1], [4, 3, 2, 1], [10, 3, 2, 1], [4, 10, 2, 2], [7, 10, 2, 2], [10, 10, 2, 2]],
+    soft: [[6, 6, 1, 1], [9, 6, 1, 1]],
+  },
+  linkedin: {
+    fg: [[2, 2, 12, 12]],
+    cut: [[4, 4, 2, 2], [4, 7, 2, 5], [8, 7, 2, 5], [8, 6, 4, 1], [11, 7, 2, 5]],
+  },
+  instagram: {
+    fg: [[2, 2, 12, 2], [2, 12, 12, 2], [2, 2, 2, 12], [12, 2, 2, 12], [6, 6, 4, 4], [11, 4, 1, 1]],
+    cut: [[7, 7, 2, 2]],
+  },
+};
+
+function ServiceIcon({ name }) {
+  const g = SERVICE[name.toLowerCase()];
+  return g ? <Glyph {...g} /> : null;
 }
 
 // One list row: an accent stat in the gutter, a title that links straight to
@@ -45,7 +117,7 @@ function openRow(e, href) {
   window.open(href, "_blank", "noopener,noreferrer");
 }
 
-function Row({ gtop, gsub, name, desc, primary, extras = [], i }) {
+function Row({ gtop, gsub, name, desc, primary, extras = [], emblem = null, i }) {
   const href = primary?.href;
   return (
     <Reveal i={i}>
@@ -54,6 +126,7 @@ function Row({ gtop, gsub, name, desc, primary, extras = [], i }) {
         onClick={href ? (e) => openRow(e, href) : undefined}
       >
         <div className="gut">
+          {emblem}
           <div className="gtop">{gtop}</div>
           {gsub ? <div className="gsub">{gsub}</div> : null}
         </div>
@@ -89,6 +162,7 @@ function ElsewhereLink({ l }) {
   const mag = useMagnetic(0.25, 9);
   return (
     <motion.a {...mag} href={l.href} target="_blank" rel="noreferrer">
+      <ServiceIcon name={l.key} />
       <span className="lkey">{l.key}</span>
       <span className="lval">{l.value}</span>
       <Arrow />
@@ -189,6 +263,7 @@ export default function MinimalView() {
               desc={c.desc}
               primary={primaryOf(c)}
               extras={extrasOf(c)}
+              emblem={<Medal top={c.tagTop} />}
             />
           )}
         />

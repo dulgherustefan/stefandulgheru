@@ -152,8 +152,24 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
 .sec { margin-top: clamp(2.4rem,6vw,3.2rem); }
 /* Matches their .post-list-title/.photo-scroller-label label style exactly:
    11px mono, .11em tracking, uppercase, weight 500. */
-.eyebrow { font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase;
-  color:var(--faint); margin:0 0 1.25rem; font-weight:500; }
+.eyebrow { position:relative; display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.11em;
+  text-transform:uppercase; color:var(--faint); margin:0 0 1.25rem; font-weight:500; }
+.eyebrow-line { position:absolute; left:0; bottom:-7px; width:26px; height:2px; border-radius:1px;
+  background:var(--accent); transform-origin:left center; display:block; }
+
+/* Pixel medal in the Competitions gutter, tinted by tier. */
+.medal { image-rendering:pixelated; display:block; margin-bottom:.45rem; }
+.medal-disc { fill:var(--medal); }
+.m-bronze .medal-disc { fill:#c9823c; }
+.m-silver .medal-disc { fill:#b7bec9; }
+.m-gold .medal-disc, .m-mention .medal-disc { fill:#e6c15c; }
+.m-rank .medal-disc { fill:var(--accent); }
+.medal-hi { fill:#ffffff; opacity:.5; }
+.medal-core { fill:rgba(0,0,0,.22); }
+
+/* Pixel brand glyphs (Elsewhere). Punched holes use the page background. */
+.svc { image-rendering:pixelated; display:block; }
+.svc-cut { fill:var(--bg); }
 
 .rows { display:flex; flex-direction:column; }
 .showmore { align-self:flex-start; display:inline-flex; align-items:center; gap:.45rem;
@@ -208,11 +224,13 @@ a, button, .row-linked { touch-action:manipulation; -webkit-tap-highlight-color:
 
 /* ---------- elsewhere ---------- */
 .links { display:flex; flex-direction:column; }
-.links a { display:grid; grid-template-columns:8rem 1fr auto; column-gap:2rem; align-items:center;
+.links a { display:grid; grid-template-columns:18px 7rem 1fr auto; column-gap:1.1rem; align-items:center;
   padding:.9rem 0; border-top:1px solid var(--line); transition:color .16s ease; }
 .links a:first-child { border-top:0; }
 .links a:hover { color:var(--accent); }
 .links a:hover .arrow { transform:translate(2px,-2px); color:var(--accent); }
+.links .svc { color:var(--muted); transition:color .16s ease; }
+.links a:hover .svc { color:var(--accent); }
 .links .lkey { font-family:var(--mono); font-size:11px; letter-spacing:.11em; text-transform:uppercase; color:var(--faint); font-weight:500; }
 .links .lval { font-family:var(--body); font-size:15px; color:var(--fg); }
 .links .arrow { color:var(--faint); transition:transform .18s ease, color .18s ease; width:13px; height:13px; }
@@ -253,7 +271,7 @@ footer { margin-top:3.2rem; padding-top:1.2rem; border-top:1px solid var(--line)
   .row { grid-template-columns:4.8rem 1fr; column-gap:.85rem; }
   .gtop { font-size:13px; }
   .gsub { font-size:9.5px; margin-top:.3rem; }
-  .links a { grid-template-columns:1fr auto; }
+  .links a { grid-template-columns:18px 1fr auto; column-gap:.9rem; }
   .links .lkey { display:none; }
 }
 

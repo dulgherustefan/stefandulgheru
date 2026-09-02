@@ -1,16 +1,37 @@
 import { useState } from "react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 
-// Photo avatar; falls back to the monogram until /me.jpg exists.
+// Photo avatar; falls back to the monogram until /me.jpg exists. Tilts a touch
+// toward the pointer for a subtle 3D feel; still under reduced motion.
 export function Avatar() {
   const [ok, setOk] = useState(true);
+  const reduce = useReducedMotion();
+  const px = useMotionValue(0);
+  const py = useMotionValue(0);
+  const rotateX = useSpring(useTransform(py, (v) => v * -12), { stiffness: 220, damping: 18 });
+  const rotateY = useSpring(useTransform(px, (v) => v * 12), { stiffness: 220, damping: 18 });
+
+  const onMove = (e) => {
+    if (reduce) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    px.set((e.clientX - r.left) / r.width - 0.5);
+    py.set((e.clientY - r.top) / r.height - 0.5);
+  };
+  const reset = () => { px.set(0); py.set(0); };
+
   return (
-    <div className="avatar">
+    <motion.div
+      className="avatar"
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+      style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 520 }}
+    >
       {ok ? (
         <img src="/me.jpg" width="320" height="320" alt="Ștefan Dulgheru, full-length portrait" onError={() => setOk(false)} />
       ) : (
         <span aria-hidden="true">Ș</span>
       )}
-    </div>
+    </motion.div>
   );
 }
 
