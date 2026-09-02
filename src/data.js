@@ -26,7 +26,7 @@ export const work = [
     stat: "Live",
     sub: "2026",
     desc:
-      "Learning platform for the AI club at Tudor Vianu, a computer-science high school in Bucharest. Built in Next.js and TypeScript. On the dev team behind most of what's live: lessons with runnable code, a curriculum from Python basics to deep learning, and olympiad tips from students who competed.",
+      "Learning platform for the AI club at Tudor Vianu National Informatics College in Bucharest. Built in Next.js and TypeScript. On the dev team behind most of what's live: lessons with runnable code, a curriculum from Python basics to deep learning, and olympiad tips from students who competed.",
     links: [{ label: "vianu-ai.ro", href: "https://vianu-ai.ro" }],
   },
   {
@@ -130,7 +130,7 @@ export const competitions = [
     tagTop: "Mention",
     tagSub: "'25 & '26",
     desc:
-      "National programming contest from ITLevel and Tudor Vianu, a computer-science high school in Bucharest: build a game in C++ or Python from a given story, then finish it live in a timed national round. Special mention in both the 2025 and 2026 editions.",
+      "National programming contest from ITLevel and Tudor Vianu National Informatics College: build a game in C++ or Python from a given story, then finish it live in a timed national round. Special mention in both the 2025 and 2026 editions.",
     link: { label: "national results (liceu)", href: "https://www.itlevel.ro/wp-content/uploads/2026/01/Etapa-Nationala-Liceu.pdf" },
   },
 ];
@@ -151,7 +151,7 @@ export const conferences = [
     tagTop: "Speaker",
     tagSub: "AI",
     desc:
-      "Summer school on cybersecurity, threat intelligence, IoT and blockchain at Spiru Haret University, Bucharest. Represented Tudor Vianu with a talk on AI; named in the national paper Opinia Națională. May 2026.",
+      "Summer school on cybersecurity, threat intelligence, IoT and blockchain at Spiru Haret University, Bucharest. Represented Tudor Vianu National Informatics College with a talk on AI; named in the national paper Opinia Națională. May 2026.",
     links: [
       { label: "summer school site", href: "https://cyb3rqstack.spiruharet.ro/" },
       { label: "Opinia Națională", href: "http://opinianationala.ro/wp-content/uploads/2026/05/1181.pdf#page=5" },
@@ -163,7 +163,7 @@ export const conferences = [
     tagTop: "Volunteer",
     tagSub: "AI stand",
     desc:
-      "Tech festival at Tudor Vianu. Volunteered on the AI stand for the IT Treasure Hunt and wrote the AI problems teams solved along the way. December 2025.",
+      "Tech festival at Tudor Vianu National Informatics College. Volunteered on the AI stand for the IT Treasure Hunt and wrote the AI problems teams solved along the way. December 2025.",
     link: { label: "about the event", href: "https://portal.lbi.ro/2025/12/11/vianu-scitech-evo-fest-editia-a-ii-a-o-zi-dedicata-viitorului-tehnologiei/" },
   },
   {
