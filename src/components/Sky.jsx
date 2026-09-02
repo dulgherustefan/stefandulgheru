@@ -1,17 +1,16 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-// Chunky, wide pixel cumulus: a coarse stepped-block silhouette (few, big
-// pixels) with a lighter crown band and a darker underside for form. Crisp
-// edges keep it firmly pixel-art rather than a soft blob.
+// Very chunky, wide pixel cumulus on a coarse grid (few, big blocks) — a
+// lighter crown band, a darker underside band. Crisp edges keep it firmly
+// pixel-art. Grid is ~half the previous resolution, so each block reads big.
 function Cloud() {
   const base = [
-    [2, 10, 6], [3, 7, 12], [4, 5, 16], [5, 3, 20],
-    [6, 2, 23], [7, 1, 24], [8, 1, 24], [9, 2, 22],
+    [1, 5, 5], [2, 3, 9], [3, 1, 13], [4, 0, 15], [5, 1, 13],
   ];
-  const light = [[2, 10, 3], [3, 7, 4], [4, 5, 3], [5, 3, 3], [6, 2, 2]];
-  const shade = [[8, 1, 2], [8, 18, 7], [9, 2, 22]];
+  const light = [[1, 5, 2], [2, 3, 3], [3, 1, 3]];
+  const shade = [[4, 9, 6], [5, 1, 13]];
   return (
-    <svg viewBox="0 0 26 13" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+    <svg viewBox="0 0 15 8" shapeRendering="crispEdges" aria-hidden="true" width="100%">
       <g fill="currentColor">
         {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
       </g>
@@ -25,15 +24,15 @@ function Cloud() {
   );
 }
 
-// Smaller, wide companion puff, same coarse construction.
+// Smaller, wide companion puff, same coarse blocks.
 function Puff() {
   const base = [
-    [2, 6, 4], [3, 4, 9], [4, 2, 13], [5, 1, 15], [6, 1, 15], [7, 2, 13],
+    [1, 4, 3], [2, 2, 7], [3, 1, 9], [4, 2, 7],
   ];
-  const light = [[2, 6, 2], [3, 4, 3], [4, 2, 2]];
-  const shade = [[6, 10, 5], [7, 2, 13]];
+  const light = [[1, 4, 2], [2, 2, 2]];
+  const shade = [[3, 6, 4], [4, 2, 7]];
   return (
-    <svg viewBox="0 0 18 10" shapeRendering="crispEdges" aria-hidden="true" width="100%">
+    <svg viewBox="0 0 11 6" shapeRendering="crispEdges" aria-hidden="true" width="100%">
       <g fill="currentColor">
         {base.map(([y, x, w], i) => <rect key={`b${i}`} x={x} y={y} width={w} height="1" />)}
       </g>
