@@ -6,14 +6,9 @@ export const profile = {
   // bio as segments: string | {lnk, href} | {note, tip}
   bio: [
     [
-      "I'm a high-school student at ",
-      { note: "Tudor Vianu", tip: "computer-science college, Bucharest" },
-      ", where I focus on machine learning and software. I compete in ",
+      "High-school student at Tudor Vianu National Informatics College in Bucharest, one of the top secondary education institutions in Romania. My main educational focus is on machine learning and software development. I compete in ",
       { lnk: "AI olympiads", href: "https://olimpiada-ai.ro" },
-      " and on Kaggle, and I build real software too, most recently the learning platform for my school's AI club, where I teach alongside two classmates.",
-    ],
-    [
-      "Most of what I know is self-taught: I learn best by pulling something apart, figuring out how it works, and putting it back together a little better than before.",
+      " in Romania and in international contests on Kaggle. On a practical level, I am one of the founders and developers of both the learning platform and the curricula for my high school's AI club, where I teach alongside two classmates. One of my main strengths is self-teaching, especially since AI is still in its early stages as a discipline in Romania.",
     ],
   ],
 };
