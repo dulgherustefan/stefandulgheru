@@ -2,7 +2,7 @@
 
 export const profile = {
   name: "Ștefan Dulgheru",
-  eyebrow: "Machine learning & software",
+  eyebrow: "Machine learning & software development",
   // bio as segments: string | {lnk, href} | {note, tip}
   bio: [
     [
