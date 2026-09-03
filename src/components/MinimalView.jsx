@@ -205,7 +205,7 @@ export default function MinimalView() {
           <div>
             <h1 className="name">{profile.name}</h1>
             <p className="role">
-              Machine learning &amp; <b>software</b>
+              Machine learning &amp; <b>software development</b>
             </p>
           </div>
         </div>
