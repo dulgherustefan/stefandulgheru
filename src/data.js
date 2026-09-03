@@ -2,7 +2,9 @@
 
 export const profile = {
   name: "Ștefan Dulgheru",
-  eyebrow: "Machine learning & software development",
+  location: "Bucharest",
+  // hero tagline: lead text plus the accented tail
+  role: { lead: "Machine learning &", accent: "software development" },
   // bio as segments: string | {lnk, href} | {note, tip}
   bio: [
     [

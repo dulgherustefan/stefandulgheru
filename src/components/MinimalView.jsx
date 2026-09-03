@@ -19,8 +19,8 @@ function Reveal({ children, i = 0 }) {
   );
 }
 
-function Eyebrow({ children }) {
-  return <h2 className="eyebrow">{children}</h2>;
+function Eyebrow({ children, id }) {
+  return <h2 className="eyebrow" id={id}>{children}</h2>;
 }
 
 // Small right arrow that nudges forward on hover — the "go here" affordance.
@@ -205,7 +205,7 @@ export default function MinimalView() {
           <div>
             <h1 className="name">{profile.name}</h1>
             <p className="role">
-              Machine learning &amp; <b>software development</b>
+              {profile.role.lead} <b>{profile.role.accent}</b>
             </p>
           </div>
         </div>
@@ -214,7 +214,7 @@ export default function MinimalView() {
       </header>
 
       <section className="sec" aria-labelledby="work-h">
-        <Eyebrow>Selected work</Eyebrow>
+        <Eyebrow id="work-h">Selected work</Eyebrow>
         <div className="rows">
           {work.map((w, i) => (
             <Row
@@ -232,7 +232,7 @@ export default function MinimalView() {
       </section>
 
       <section className="sec" aria-labelledby="comp-h">
-        <Eyebrow>Competitions &amp; awards</Eyebrow>
+        <Eyebrow id="comp-h">Competitions &amp; awards</Eyebrow>
         <CollapsibleRows
           items={competitions}
           initial={4}
@@ -253,7 +253,7 @@ export default function MinimalView() {
       </section>
 
       <section className="sec" aria-labelledby="conf-h">
-        <Eyebrow>Teaching &amp; community</Eyebrow>
+        <Eyebrow id="conf-h">Teaching &amp; community</Eyebrow>
         <div className="rows">
           {conferences.map((c, i) => (
             <Row
@@ -271,7 +271,7 @@ export default function MinimalView() {
       </section>
 
       <section className="sec" aria-labelledby="lang-h">
-        <Eyebrow>Languages</Eyebrow>
+        <Eyebrow id="lang-h">Languages</Eyebrow>
         <ul className="langs">
           {languages.map((l) => (
             <li key={l.name} className="lang">
@@ -285,7 +285,7 @@ export default function MinimalView() {
       <GithubGraph />
 
       <section className="sec" aria-labelledby="else-h">
-        <Eyebrow>Elsewhere</Eyebrow>
+        <Eyebrow id="else-h">Elsewhere</Eyebrow>
         <nav className="links">
           {links.map((l) => (
             <ElsewhereLink key={l.key} l={l} />
@@ -294,8 +294,8 @@ export default function MinimalView() {
       </section>
 
       <footer>
-        <span>Ștefan Dulgheru</span>
-        <span>Bucharest</span>
+        <span>{profile.name}</span>
+        <span>{profile.location}</span>
       </footer>
     </div>
   );

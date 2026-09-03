@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { profile } from "../data.js";
 
 // Photo avatar; falls back to the monogram until /me.jpg exists. Tilts a touch
 // toward the pointer for a subtle 3D feel; still under reduced motion.
@@ -27,7 +28,7 @@ export function Avatar() {
       style={reduce ? undefined : { rotateX, rotateY, transformPerspective: 420 }}
     >
       {ok ? (
-        <img src="/me.jpg" width="320" height="320" alt="Ștefan Dulgheru, full-length portrait" onError={() => setOk(false)} />
+        <img src="/me.jpg" width="320" height="320" alt={`${profile.name}, full-length portrait`} onError={() => setOk(false)} />
       ) : (
         <span aria-hidden="true">Ș</span>
       )}
