@@ -1,0 +1,21 @@
+/* Self-hosted, trimmed variable fonts (rebuild with scripts/fonts.py).
+   Only the weights, optical sizes and Latin characters the site uses are kept. */
+
+/* Display: names and titles. Weight pinned at 600, optical size 12–28 (applied
+   automatically from the font size). */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("./assets/fonts/bricolage-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Body: all running text, weights 400–600. */
+@font-face {
+  font-family: "Hanken Grotesk";
+  src: url("./assets/fonts/hanken-400-600.woff2") format("woff2");
+  font-weight: 400 600;
+  font-style: normal;
+  font-display: swap;
+}
