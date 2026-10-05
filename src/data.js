@@ -70,18 +70,6 @@ export const githubUser = "dulgherustefan";
 
 export const competitions = [
   {
-    id: "vnu-hack-2026",
-    name: "VNU Hack · Connect the Dots",
-    stat: "1st",
-    sub: "of ~40 teams",
-    medal: "gold",
-    desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
-    links: [
-      { label: "ping-up.org", href: "https://ping-up.org" },
-      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
-    ],
-  },
-  {
     id: "onia",
     name: "Olimpiada Națională de Inteligență Artificială",
     stat: "Bronze",
@@ -101,6 +89,18 @@ export const competitions = [
         label: "national leaderboard",
         href: "https://judge.nitro-ai.org/competitions/roai-2025/nationala-ix-x-2026/leaderboard/complete",
       },
+    ],
+  },
+  {
+    id: "vnu-hack-2026",
+    name: "VNU Hack · Connect the Dots",
+    stat: "1st",
+    sub: "of ~40 teams",
+    medal: "gold",
+    desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
+    links: [
+      { label: "ping-up.org", href: "https://ping-up.org" },
+      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
     ],
   },
   {
