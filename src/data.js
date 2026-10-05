@@ -3,7 +3,7 @@
 // work, competitions and community share one entry shape:
 //   { id, name, stat, sub?, desc, links: [{ label, href }], medal? }
 // `stat`/`sub` fill the left gutter, the first link is the title's link,
-// further links show under the description, and `medal` adds the pixel medal.
+// further links show under the description, and `medal` ("gold" | "bronze") adds the pixel medal.
 
 // Site-wide facts used outside the page itself: structured data and llms.txt,
 // both generated from this file at build time (scripts/prerender.js).
@@ -38,6 +38,17 @@ export const profile = {
 
 export const work = [
   {
+    id: "ping-up",
+    name: "Ping Up",
+    stat: "Beta",
+    sub: "Android",
+    desc: "Android app for texting friends and calling for help at festivals when the mobile network goes down. Messages hop from phone to phone over Bluetooth, without internet or an account, and stay end-to-end encrypted. My idea; I built a large part of it with team Downtown Fitness, and it won VNU Hack 2026.",
+    links: [
+      { label: "ping-up.org", href: "https://ping-up.org" },
+      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
+    ],
+  },
+  {
     id: "vianu-ai",
     name: "Vianu AI",
     stat: "Live",
@@ -58,6 +69,18 @@ export const work = [
 export const githubUser = "dulgherustefan";
 
 export const competitions = [
+  {
+    id: "vnu-hack-2026",
+    name: "VNU Hack · Connect the Dots",
+    stat: "1st",
+    sub: "of ~40 teams",
+    medal: "gold",
+    desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
+    links: [
+      { label: "ping-up.org", href: "https://ping-up.org" },
+      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
+    ],
+  },
   {
     id: "onia",
     name: "Olimpiada Națională de Inteligență Artificială",

@@ -324,24 +324,35 @@ button,
   margin: 0;
 }
 
-/* Pixel bronze medal in the Competitions gutter. */
+/* Pixel medal in the Competitions gutter, bronze or gold. */
 .medal {
   image-rendering: pixelated;
   display: block;
   margin-bottom: 0.4rem;
 }
-.medal-disc {
-  fill: #c88a3e;
-}
 .medal-ribbon {
   fill: #9c5e5e;
 }
 .medal-hi {
-  fill: #ffe3c2;
   opacity: 0.6;
 }
-.medal-star {
+.medal-bronze .medal-disc {
+  fill: #c88a3e;
+}
+.medal-bronze .medal-hi {
+  fill: #ffe3c2;
+}
+.medal-bronze .medal-star {
   fill: #7a4a1e;
+}
+.medal-gold .medal-disc {
+  fill: #e8b730;
+}
+.medal-gold .medal-hi {
+  fill: #fff6cf;
+}
+.medal-gold .medal-star {
+  fill: #9a6a12;
 }
 
 /* Pixel brand glyphs (Elsewhere). Punched holes use the page background. */

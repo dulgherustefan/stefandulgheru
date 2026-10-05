@@ -25,7 +25,7 @@ function Row({ item, i }) {
         onClick={href ? (e) => openRow(e, href) : undefined}
       >
         <div className="gut">
-          {item.medal ? <Medal /> : null}
+          {item.medal ? <Medal kind={item.medal} /> : null}
           <div className="gtop">{item.stat}</div>
           {item.sub ? <div className="gsub">{item.sub}</div> : null}
         </div>

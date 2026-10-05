@@ -153,7 +153,7 @@ export function Sun() {
   );
 }
 
-// ---------- bronze medal: ribbon plus a coin with an engraved star ----------
+// ---------- medal: ribbon plus a coin with an engraved star, gold or bronze ----------
 
 const MEDAL = {
   ribbon: [
@@ -178,10 +178,10 @@ const MEDAL = {
   ],
 };
 
-export function Medal() {
+export function Medal({ kind = "bronze" }) {
   return (
     <svg
-      className="medal"
+      className={`medal medal-${kind}`}
       viewBox="0 0 12 16"
       shapeRendering="crispEdges"
       width="15"

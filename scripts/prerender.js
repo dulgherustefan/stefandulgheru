@@ -18,11 +18,14 @@ const bioText = profile.bio.map((para) =>
 
 const capitalize = (s) => s[0].toUpperCase() + s.slice(1);
 
-// Medals and mentions only; plain ranks stay on the page.
+// Podium places, medals and mentions only; plain ranks stay on the page.
+const PODIUM = /^(1st|2nd|3rd)$/;
+
 function awards() {
   return competitions
-    .filter((c) => c.medal || /mention/i.test(c.stat))
+    .filter((c) => PODIUM.test(c.stat) || c.medal || /mention/i.test(c.stat))
     .map((c) => {
+      if (PODIUM.test(c.stat)) return `${c.stat} place, ${c.name}${c.sub ? ` (${c.sub})` : ""}`;
       if (c.medal) {
         const rank =
           c.stat.toLowerCase() === c.medal ? "" : ` (${[c.stat, c.sub].filter(Boolean).join(" ")})`;
