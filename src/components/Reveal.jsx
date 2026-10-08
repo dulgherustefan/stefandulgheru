@@ -1,21 +1,37 @@
-import { m, useReducedMotion } from "framer-motion";
+import { useEffect, useRef } from "react";
 
-const EASE = [0.2, 0.7, 0.2, 1];
-
-// Fades a block up into place the first time it scrolls into view. The hidden
-// start state is the same on the server and in the browser (the prerendered
-// HTML must match), so under reduced motion the block still waits for the view
-// but then appears instantly instead of animating.
+// Fades a block up into place. The fade itself is CSS (.rv in index.css), so the
+// prerendered HTML shows every block on first paint instead of waiting for the
+// script. After hydration, blocks still below the fold are hidden again and fade
+// in the first time they scroll into view. Under reduced motion nothing moves.
 export default function Reveal({ children, i = 0 }) {
-  const reduce = useReducedMotion();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    if (el.getBoundingClientRect().top < window.innerHeight) return; // already on screen
+    el.classList.add("rv-wait");
+    const io = new IntersectionObserver(([entry]) => entry.isIntersecting && show(), {
+      rootMargin: "0px 0px -8% 0px",
+    });
+    const stop = () => {
+      io.disconnect();
+      el.removeEventListener("focusin", show);
+    };
+    function show() {
+      el.classList.remove("rv-wait");
+      stop();
+    }
+    io.observe(el);
+    // Tab can bring a row into the bottom strip the observer skips; show it on focus too.
+    el.addEventListener("focusin", show);
+    return stop;
+  }, []);
+
   return (
-    <m.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-      transition={reduce ? { duration: 0 } : { duration: 0.5, ease: EASE, delay: i * 0.04 }}
-    >
+    <div ref={ref} className="rv" style={{ "--i": i }}>
       {children}
-    </m.div>
+    </div>
   );
 }

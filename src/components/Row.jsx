@@ -1,14 +1,15 @@
-import { AnimatePresence, m, useReducedMotion } from "framer-motion";
-import { useState } from "react";
+import { useId, useState } from "react";
 import Reveal from "./Reveal.jsx";
 import { Arrow, Go } from "./icons.jsx";
 import { Medal } from "./pixel.jsx";
 
-// Clicking anywhere on a row opens its primary link. Mouse-only convenience:
-// the title <a> carries the accessible name and keyboard semantics, so the row
-// itself takes no link role. Clicks on a nested <a> or on selected text pass.
+// Clicking a row opens its primary link. Mouse-only convenience: the title <a>
+// carries the accessible name and keyboard semantics, so the row itself takes
+// no link role. Clicks on a nested <a> or on selected text pass, and so do
+// clicks on the description, where double-clicking a word should select it
+// rather than open a tab on the first click.
 function openRow(e, href) {
-  if (e.target.closest("a")) return;
+  if (e.target.closest("a, .rdesc")) return;
   if (String(window.getSelection?.() ?? "")) return;
   window.open(href, "_blank", "noopener,noreferrer");
 }
@@ -58,10 +59,12 @@ function Row({ item, i }) {
 }
 
 // A list of rows. With `limit`, only the first `limit` show until "View all"
-// expands the rest in place.
+// opens the rest in place. The rest are in the HTML from the start (so search
+// engines and the prerender see them), just `hidden`; each row's Reveal fade
+// plays when they appear.
 export default function RowList({ items, limit = items.length }) {
-  const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
+  const moreId = useId();
   const head = items.slice(0, limit);
   const tail = items.slice(limit);
 
@@ -70,25 +73,24 @@ export default function RowList({ items, limit = items.length }) {
       {head.map((item, i) => (
         <Row key={item.id} item={item} i={i} />
       ))}
-      <AnimatePresence initial={false}>
-        {open &&
-          tail.map((item, i) => (
-            <m.div
-              key={item.id}
-              initial={reduce ? false : { opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
-              transition={{ duration: 0.32, ease: [0.2, 0.7, 0.2, 1] }}
-            >
-              <Row item={item} i={limit + i} />
-            </m.div>
-          ))}
-      </AnimatePresence>
       {tail.length > 0 && (
-        <button type="button" className="showmore" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-          <span className="showmore-txt">{open ? "Show less" : `View all (${tail.length} more)`}</span>
-          <span className={`showmore-caret ${open ? "up" : ""}`} aria-hidden="true" />
-        </button>
+        <>
+          <div className="rows-more" id={moreId} hidden={!open}>
+            {tail.map((item, i) => (
+              <Row key={item.id} item={item} i={i} />
+            ))}
+          </div>
+          <button
+            type="button"
+            className="showmore"
+            aria-expanded={open}
+            aria-controls={moreId}
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className="showmore-txt">{open ? "Show less" : `View all (${tail.length} more)`}</span>
+            <span className={`showmore-caret ${open ? "up" : ""}`} aria-hidden="true" />
+          </button>
+        </>
       )}
     </div>
   );

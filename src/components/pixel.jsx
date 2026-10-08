@@ -186,7 +186,9 @@ export function Medal({ kind = "bronze" }) {
       shapeRendering="crispEdges"
       width="15"
       height="20"
-      aria-hidden="true"
+      // Announced, not decorative: for a rank like "288th" the medal is the only mention of it.
+      role="img"
+      aria-label={`${kind[0].toUpperCase()}${kind.slice(1)} medal`}
     >
       <Rects rects={MEDAL.ribbon} className="medal-ribbon" />
       <Rows rows={MEDAL.disc} className="medal-disc" />

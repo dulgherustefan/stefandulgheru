@@ -2,9 +2,10 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import App from "./App.jsx";
 // Fonts are served from this site, no third-party request. Bricolage and Hanken
-// are trimmed builds (src/fonts.css); Silkscreen is small enough as published.
+// are trimmed builds (src/fonts.css); Silkscreen is small enough as published,
+// Latin only (the section titles are plain English; latin-ext was ~7 KB inlined in the CSS).
 import "./fonts.css";
-import "@fontsource/silkscreen/400.css";
+import "@fontsource/silkscreen/latin-400.css";
 import "./index.css";
 
 const root = document.getElementById("root");

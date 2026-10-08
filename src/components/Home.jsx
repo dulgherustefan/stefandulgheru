@@ -14,11 +14,12 @@ export default function Home() {
         <RowList items={work} />
       </Section>
 
-      <Section id="comp" title="Competitions & awards">
+      {/* "and", not "&": Silkscreen's ampersand reads as a "$" at this size. */}
+      <Section id="comp" title="Competitions and awards">
         <RowList items={competitions} limit={4} />
       </Section>
 
-      <Section id="community" title="Teaching & community">
+      <Section id="community" title="Teaching and community">
         <RowList items={community} />
       </Section>
 

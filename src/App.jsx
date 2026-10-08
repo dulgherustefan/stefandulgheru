@@ -6,6 +6,10 @@ import { useTheme } from "./hooks/useTheme.js";
 import Sky from "./components/Sky.jsx";
 import Home from "./components/Home.jsx";
 
+// The page never depends on the theme, so one static element keeps a theme
+// toggle (rendered synchronously inside the view transition) from re-rendering it.
+const home = <Home />;
+
 export default function App() {
   const { theme, toggleTheme } = useTheme();
   useLenis();
@@ -22,7 +26,7 @@ export default function App() {
       </a>
       {hydrated && <Sky theme={theme} onToggleTheme={toggleTheme} />}
       <main className="wrap" id="main" tabIndex={-1}>
-        <Home />
+        {home}
       </main>
       <Analytics />
     </LazyMotion>

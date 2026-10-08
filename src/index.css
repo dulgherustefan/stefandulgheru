@@ -83,7 +83,8 @@ button,
   z-index: 20;
   padding: 0.6rem 0.9rem;
   background: var(--accent);
-  color: #fff;
+  /* The page background reads on the accent in both themes (6.2:1 dark, 5.1:1 light). */
+  color: var(--bg);
   border-radius: 0 0 8px 0;
   font-size: 14px;
 }
@@ -140,6 +141,25 @@ button,
   width: 82px;
   opacity: 0.72;
 }
+/* The cluster drifts and the puff bobs, slowly and back again. */
+@media (prefers-reduced-motion: no-preference) {
+  .cloudset {
+    animation: cloud-drift 15s ease-in-out infinite alternate;
+  }
+  .cloud.c2 {
+    animation: cloud-bob 2.25s ease-in-out infinite alternate;
+  }
+}
+@keyframes cloud-drift {
+  to {
+    transform: translateX(-14px);
+  }
+}
+@keyframes cloud-bob {
+  to {
+    transform: translateY(-3px);
+  }
+}
 
 /* The sun/moon toggle: a sibling of .sky (its own stacking context) so its
    z-index clears .wrap for real. Absolute at the top, in the gap to the right
@@ -191,6 +211,11 @@ button,
   z-index: 9999;
   animation: vt-spread 1.05s cubic-bezier(0.33, 0, 0.2, 1) both;
   filter: drop-shadow(0 0 26px var(--vt-glow, rgba(255, 214, 140, 0.6)));
+}
+/* Inside the circle the new theme must be final at once; the body's own colour
+   fade would otherwise play in there, under text that has already switched. */
+.vt-reveal body {
+  transition: none;
 }
 @keyframes vt-spread {
   from {
@@ -297,6 +322,25 @@ button,
 .lnk:hover {
   color: var(--accent);
   text-decoration-color: var(--accent);
+}
+
+/* Rows fade up into place (Reveal.jsx). The first-paint fade needs no script;
+   .rv-wait holds blocks that start below the fold until they scroll into view. */
+@media (prefers-reduced-motion: no-preference) {
+  .rv {
+    animation: rv-up 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--i, 0) * 40ms) both;
+  }
+  .rv.rv-wait {
+    animation: none;
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes rv-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
 
 /* ---------- sections ---------- */
@@ -639,9 +683,11 @@ footer {
 .gh-link:hover {
   color: var(--accent);
 }
+/* Room for the 7 rows before the data arrives, so the sections below don't jump. */
 .gh-graphwrap {
   overflow-x: auto;
   padding-bottom: 0.4rem;
+  min-height: calc(7 * 11px + 6 * 3px + 0.4rem);
 }
 .gh-graph {
   display: inline-flex;
@@ -723,7 +769,9 @@ footer {
 }
 
 /* ---------- responsive ---------- */
-@media (max-width: 600px) {
+/* The smaller sky starts at 680px: between ~600 and ~660px the desktop puff
+   would sit on the end of the name. */
+@media (max-width: 680px) {
   .celestial {
     top: clamp(0.8rem, 4vw, 1.4rem);
     right: 6%;
@@ -747,6 +795,8 @@ footer {
     width: 50px;
     top: 6px;
   }
+}
+@media (max-width: 600px) {
   /* Keep the accent rank/place in a left gutter on phones too, just tighter. */
   .row {
     grid-template-columns: 4.8rem 1fr;
@@ -762,8 +812,14 @@ footer {
     grid-template-columns: 18px 1fr auto;
     column-gap: 0.9rem;
   }
+  /* Hidden from view only: the icon is decorative, so this is the link's service name. */
   .links .lkey {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 
@@ -773,5 +829,55 @@ footer {
   }
   * {
     scroll-behavior: auto;
+  }
+  /* Hover nudges, the underline sweep and the caret flip change state without moving. */
+  .rlink > span::after,
+  .go,
+  .showmore-caret,
+  .links .arrow {
+    transition: none;
+  }
+}
+
+/* ---------- print ---------- */
+/* Paper gets the light palette (browsers drop dark backgrounds), every row,
+   collapsed or not yet scrolled to, and no sky or controls. */
+@media print {
+  :root,
+  :root[data-theme="dark"] {
+    color-scheme: light;
+    --bg: #ffffff;
+    --bg-2: #f5f5f7;
+    --fg: #111111;
+    --muted: #555555;
+    --faint: #6e6e6e;
+    --line: #ececef;
+    --line-2: #dedee3;
+    --accent: #3b5bff;
+    --accent-soft: rgba(59, 91, 255, 0.1);
+  }
+  .sky,
+  .celestial,
+  .skip,
+  .showmore {
+    display: none;
+  }
+  .rows-more[hidden] {
+    display: block;
+  }
+  .rv,
+  .rv.rv-wait,
+  .gh-graph .gh-cell,
+  .gh-graph.is-in .gh-cell {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .row {
+    break-inside: avoid;
+  }
+  .eyebrow,
+  .sec-head {
+    break-after: avoid;
   }
 }

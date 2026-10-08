@@ -1,11 +1,9 @@
 import { m, useReducedMotion } from "framer-motion";
 import { Cloud, Moon, Puff, Sun } from "./pixel.jsx";
 
-const DRIFT = { x: [0, -14, 0], transition: { duration: 30, repeat: Infinity, ease: "easeInOut" } };
-const BOB = { y: [0, -3, 0], transition: { duration: 4.5, repeat: Infinity, ease: "easeInOut" } };
-
 // The hero sky: a pixel cloud cluster drifting by the moon/sun, which doubles
-// as the light/dark toggle.
+// as the light/dark toggle. The drift and bob are CSS animations (index.css),
+// so they run off the main thread.
 export default function Sky({ theme, onToggleTheme }) {
   const reduce = useReducedMotion();
   const isDark = theme === "dark";
@@ -14,14 +12,14 @@ export default function Sky({ theme, onToggleTheme }) {
     <>
       <m.div className="sky" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         {/* One cluster that drifts as a whole, so the clouds stay together. */}
-        <m.div className="cloudset" animate={reduce ? {} : DRIFT}>
+        <div className="cloudset">
           <div className="cloud c1">
             <Cloud />
           </div>
-          <m.div className="cloud c2" animate={reduce ? {} : BOB}>
+          <div className="cloud c2">
             <Puff />
-          </m.div>
-        </m.div>
+          </div>
+        </div>
       </m.div>
 
       {/* A sibling of .sky, not a child, so its own z-index clears the page. */}

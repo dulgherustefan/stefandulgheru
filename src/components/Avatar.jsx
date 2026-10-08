@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { m, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { profile } from "../data.js";
 
@@ -6,6 +6,12 @@ import { profile } from "../data.js";
 // motion). Falls back to the name's initial if the image fails to load.
 export default function Avatar() {
   const [ok, setOk] = useState(true);
+  const imgRef = useRef(null);
+  // The <img> is prerendered, so it can fail before React attaches onError.
+  useEffect(() => {
+    const img = imgRef.current;
+    if (img?.complete && !img.naturalWidth) setOk(false);
+  }, []);
   const reduce = useReducedMotion();
   const px = useMotionValue(0);
   const py = useMotionValue(0);
@@ -42,6 +48,7 @@ export default function Avatar() {
           <source srcSet="/me.avif" type="image/avif" />
           <source srcSet="/me.webp" type="image/webp" />
           <img
+            ref={imgRef}
             src="/me.jpg"
             width="320"
             height="320"

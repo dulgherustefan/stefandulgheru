@@ -4,8 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark light" />
-    <meta name="theme-color" content="#0e0e12" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <!-- browser UI colour follows the page's theme (dark unless saved otherwise), not the OS one -->
+    <meta name="theme-color" content="#0e0e12" />
 
     <title>Ștefan Dulgheru · Machine learning & software development</title>
     <meta
@@ -32,15 +32,13 @@
     <meta property="og:image" content="https://stefandulgheru.com/og.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="Ștefan Dulgheru, machine learning and software development, Bucharest."
-    />
+    <meta property="og:image:alt" content="Ștefan Dulgheru, machine learning and software development." />
     <meta property="og:locale" content="en_US" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ștefan Dulgheru" />
     <meta name="twitter:description" content="Machine learning, AI olympiads, and software people use." />
     <meta name="twitter:image" content="https://stefandulgheru.com/og.png" />
+    <meta name="twitter:image:alt" content="Ștefan Dulgheru, machine learning and software development." />
 
     <!-- font preloads and structured data (JSON-LD) are added at build time -->
     <!--app-head-->
@@ -51,6 +49,8 @@
         try {
           var t = localStorage.getItem("theme");
           if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+          if (t === "light")
+            document.querySelector('meta[name="theme-color"]').setAttribute("content", "#ffffff");
         } catch (e) {}
       })();
     </script>

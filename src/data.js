@@ -9,7 +9,8 @@
 // both generated from this file at build time (scripts/prerender.js).
 export const site = {
   url: "https://stefandulgheru.com/",
-  image: "https://stefandulgheru.com/og.png",
+  // A photo of the person (the Person schema's image), not the text-only share card.
+  image: "https://stefandulgheru.com/me.jpg",
   alternateName: "Dulgheru Ștefan Alexandru",
   description: "High-school student in machine learning and software development.",
   school: "Colegiul Național de Informatică Tudor Vianu",
@@ -54,7 +55,7 @@ export const work = [
     stat: "Live",
     sub: "2026",
     desc: "Learning platform for the AI club at Tudor Vianu National Informatics College in Bucharest. Built in Next.js and TypeScript. On the dev team behind most of what's live: lessons with runnable code, a curriculum from Python basics to deep learning, and olympiad tips from students who competed.",
-    links: [{ label: "vianu-ai.ro", href: "https://vianu-ai.ro" }],
+    links: [{ label: "vianu-ai.ro", href: "https://www.vianu-ai.ro/" }],
   },
   {
     id: "cvcheck",
@@ -201,7 +202,7 @@ export const community = [
     stat: "Instructor",
     sub: "team of 3",
     desc: "Teaches AI at the school's club with two classmates, covering fundamentals through to what the olympiads test.",
-    links: [{ label: "vianu-ai.ro", href: "https://vianu-ai.ro" }],
+    links: [{ label: "vianu-ai.ro", href: "https://www.vianu-ai.ro/" }],
   },
   {
     id: "how-to-web-2026",
@@ -209,7 +210,7 @@ export const community = [
     stat: "Speaker",
     sub: "Ping Up",
     desc: "Startup and tech conference in Bucharest, with 3,000+ attendees and speakers from OpenAI, Meta, Google and Stripe. Invited with my team to present Ping Up, our offline messenger for festivals, on stage. October 2026.",
-    links: [{ label: "howtoweb.co", href: "https://www.howtoweb.co/" }],
+    links: [{ label: "2026 agenda", href: "https://www.howtoweb.co/agenda-2026/" }],
   },
   {
     id: "cyber-q-stack",
@@ -234,7 +235,8 @@ export const community = [
     links: [
       {
         label: "about the event",
-        href: "https://portal.lbi.ro/2025/12/11/vianu-scitech-evo-fest-editia-a-ii-a-o-zi-dedicata-viitorului-tehnologiei/",
+        // http on purpose: the school portal's https certificate expired in Feb 2024.
+        href: "http://portal.lbi.ro/2025/12/11/vianu-scitech-evo-fest-editia-a-ii-a-o-zi-dedicata-viitorului-tehnologiei/",
       },
     ],
   },

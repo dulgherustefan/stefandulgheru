@@ -31,7 +31,9 @@ npm run check     lint + format check, run before committing
 2. `vite build --ssr` bundles `src/entry-server.jsx` into `.ssr/`.
 3. `scripts/prerender.js` renders the page to HTML and puts it inside `dist/index.html`, so the text is there before any JS loads. React then hydrates it in the browser.
 
-The same script reads `src/data.js` and writes the JSON-LD (Person, with awards) into the page head, adds preload links for the two fonts the first screen needs, and writes `dist/llms.txt`. So changing the content in `data.js` updates the page, the structured data and llms.txt together.
+The same script reads `src/data.js` and writes the JSON-LD (Person, with awards) into the page head, adds preload links for the two fonts the first screen needs, gives `dist/404.html` the same self-hosted fonts (it fills the `<!--fonts-->` marker there), and writes `dist/llms.txt`. So changing the content in `data.js` updates the page, the structured data and llms.txt together.
+
+Rows fade in with CSS (`Reveal.jsx` and `.rv` in `index.css`), so the prerendered page is fully visible before JS runs, with JS off, and when printed. Print gets its own light stylesheet with every row shown.
 
 In dev there is no prerender. The root starts empty and React renders from scratch.
 

@@ -8,10 +8,12 @@ const API = `https://github-contributions-api.jogruber.de/v4/${githubUser}?y=las
 const PROFILE = `https://github.com/${githubUser}`;
 const LEVELS = [0, 1, 2, 3, 4];
 
-// Lay days out as week columns (Sunday first), padding the first week.
+// Lay days out as week columns (Sunday first), padding the first week. The dates
+// are calendar days parsed as UTC, so the weekday is read in UTC too; a local
+// read shifts every column by a day for visitors west of Greenwich.
 function toColumns(days) {
   if (!days.length) return [];
-  const cells = Array(new Date(days[0].date).getDay()).fill(null).concat(days);
+  const cells = Array(new Date(days[0].date).getUTCDay()).fill(null).concat(days);
   const cols = [];
   for (let i = 0; i < cells.length; i += 7) cols.push(cells.slice(i, i + 7));
   return cols;
@@ -23,12 +25,20 @@ export default function GithubGraph() {
   const [status, setStatus] = useState("loading");
   const [days, setDays] = useState([]);
   const [total, setTotal] = useState(null);
+  const wrapRef = useRef(null);
   const graphRef = useRef(null);
   const inView = useInView(graphRef, { once: true });
 
+  // On narrow screens the graph scrolls sideways; start at the latest weeks, as GitHub does.
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    if (status === "ready" && wrap) wrap.scrollLeft = wrap.scrollWidth;
+  }, [status]);
+
   useEffect(() => {
     let alive = true;
-    fetch(API)
+    // A hung API ends in the error note instead of an empty box.
+    fetch(API, { signal: AbortSignal.timeout?.(10000) })
       .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
       .then((json) => {
         if (!alive) return;
@@ -62,12 +72,16 @@ export default function GithubGraph() {
         </p>
       ) : (
         <>
-          <div className="gh-graphwrap">
+          <div className="gh-graphwrap" ref={wrapRef}>
             <div
               ref={graphRef}
               className={`gh-graph${inView ? " is-in" : ""}`}
               role="img"
-              aria-label={total ? `${total} contributions in the last year` : "GitHub contributions"}
+              aria-label={
+                total
+                  ? `${total.toLocaleString("en-US")} contributions in the last year`
+                  : "GitHub contributions"
+              }
             >
               {toColumns(days).map((col, ci) => (
                 <div className="gh-col" key={ci} style={{ "--d": `${Math.min(ci * 8, 600)}ms` }}>
@@ -80,7 +94,7 @@ export default function GithubGraph() {
           </div>
 
           <div className="gh-legend">
-            {total != null && <span className="gh-total">{total} contributions</span>}
+            {total != null && <span className="gh-total">{total.toLocaleString("en-US")} contributions</span>}
             <span className="gh-scale">
               Less
               {LEVELS.map((l) => (
