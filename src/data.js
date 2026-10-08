@@ -42,10 +42,10 @@ export const work = [
     name: "Ping Up",
     stat: "Beta",
     sub: "Android",
-    desc: "Android app for texting friends and calling for help at festivals when the mobile network goes down. Messages hop from phone to phone over Bluetooth, without internet or an account, and stay end-to-end encrypted. My idea; I built a large part of it with team Downtown Fitness, and it won VNU Hack 2026.",
+    desc: "Android app for texting friends and calling for help at festivals when the mobile network goes down. Messages hop from phone to phone over Bluetooth, without internet or an account, and stay end-to-end encrypted. My idea; I built a large part of it with team Downtown Fitness. It won VNU Hack 2026, and we presented it on stage at How to Web.",
     links: [
       { label: "ping-up.org", href: "https://ping-up.org" },
-      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
+      { label: "code", href: "https://github.com/dulgherustefan/PingUp" },
     ],
   },
   {
@@ -100,7 +100,7 @@ export const competitions = [
     desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
     links: [
       { label: "ping-up.org", href: "https://ping-up.org" },
-      { label: "code", href: "https://github.com/dulgherustefan/vnuhack" },
+      { label: "code", href: "https://github.com/dulgherustefan/PingUp" },
     ],
   },
   {
@@ -202,6 +202,14 @@ export const community = [
     sub: "team of 3",
     desc: "Teaches AI at the school's club with two classmates, covering fundamentals through to what the olympiads test.",
     links: [{ label: "vianu-ai.ro", href: "https://vianu-ai.ro" }],
+  },
+  {
+    id: "how-to-web-2026",
+    name: "How to Web 2026",
+    stat: "Speaker",
+    sub: "Ping Up",
+    desc: "Startup and tech conference in Bucharest, with 3,000+ attendees and speakers from OpenAI, Meta, Google and Stripe. Invited with my team to present Ping Up, our offline messenger for festivals, on stage. October 2026.",
+    links: [{ label: "howtoweb.co", href: "https://www.howtoweb.co/" }],
   },
   {
     id: "cyber-q-stack",

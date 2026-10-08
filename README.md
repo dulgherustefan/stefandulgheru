@@ -86,4 +86,4 @@ python3 scripts/fonts.py
 
 ## Photo
 
-`public/me.jpg` is the original, 320×320. `me.avif` and `me.webp` are the same image in smaller formats, with the Display P3 color profile kept so the colors don't wash out. Browsers pick the first format they support. If you replace the photo, regenerate both and keep the profile.
+`public/me.jpg` is the photo, 320×320: a head-and-shoulders crop, so the face still reads at the avatar's 106px. `me.avif` and `me.webp` are the same image in smaller formats, and browsers pick the first one they support. If you replace the photo, regenerate all three from the same crop. If the source is a phone photo in Display P3, keep that profile when converting, or the colors wash out.

@@ -45,7 +45,7 @@ export default function Avatar() {
             src="/me.jpg"
             width="320"
             height="320"
-            alt={`${profile.name}, full-length portrait`}
+            alt={`${profile.name} on stage at How to Web 2026`}
             onError={() => setOk(false)}
           />
         </picture>
