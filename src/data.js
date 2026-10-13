@@ -252,7 +252,7 @@ export const community = [
 
 export const languages = [
   { name: "Romanian", level: "Native" },
-  { name: "English", level: "Fluent" },
+  { name: "English", level: "B2" },
   { name: "French", level: "B1" },
 ];
 
