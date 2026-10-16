@@ -153,7 +153,7 @@ export function Sun() {
   );
 }
 
-// ---------- medal: ribbon plus a coin with an engraved star, gold or bronze ----------
+// ---------- medal: ribbon plus a coin with an engraved star, gold, silver or bronze ----------
 
 const MEDAL = {
   ribbon: [

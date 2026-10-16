@@ -3,7 +3,7 @@
 // work, competitions and community share one entry shape:
 //   { id, name, stat, sub?, desc, links: [{ label, href }], medal? }
 // `stat`/`sub` fill the left gutter, the first link is the title's link,
-// further links show under the description, and `medal` ("gold" | "bronze") adds the pixel medal.
+// further links show under the description, and `medal` ("gold" | "silver" | "bronze") adds the pixel medal.
 
 // Site-wide facts used outside the page itself: structured data and llms.txt,
 // both generated from this file at build time (scripts/prerender.js).
@@ -78,6 +78,15 @@ export const competitions = [
     medal: "bronze",
     desc: "Romania's national AI olympiad, run by the Ministry of Education and the national AI hub. Build and train models scored against held-out data. Bronze at the national final, April 2026.",
     links: [{ label: "national results", href: "https://olimpiada-ai.ro/ro/rezultate/nationala" }],
+  },
+  {
+    id: "kaggriculture",
+    name: "Kaggle · Kaggriculture",
+    stat: "306th",
+    sub: "of 10,148",
+    medal: "silver",
+    desc: "Kaggle simulation competition: build an AI agent that runs a virtual farm, trades in a changing economy and plays head-to-head against other teams' agents. Team Hello San Francisco, 2026.",
+    links: [{ label: "leaderboard", href: "https://www.kaggle.com/competitions/kaggriculture/leaderboard" }],
   },
   {
     id: "roai",

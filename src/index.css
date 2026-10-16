@@ -368,7 +368,7 @@ button,
   margin: 0;
 }
 
-/* Pixel medal in the Competitions gutter, bronze or gold. */
+/* Pixel medal in the Competitions gutter: bronze, silver or gold. */
 .medal {
   image-rendering: pixelated;
   display: block;
@@ -388,6 +388,15 @@ button,
 }
 .medal-bronze .medal-star {
   fill: #7a4a1e;
+}
+.medal-silver .medal-disc {
+  fill: #b9c2cc;
+}
+.medal-silver .medal-hi {
+  fill: #f5f8fb;
+}
+.medal-silver .medal-star {
+  fill: #66707c;
 }
 .medal-gold .medal-disc {
   fill: #e8b730;
