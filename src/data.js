@@ -98,9 +98,9 @@ export const competitions = [
     medal: "gold",
     desc: "24-hour AI hackathon, 64 teams. Won Raiffeisen Bank's AI for Operational Efficiency track with VersoML, an agent for disputed card payments: fixed rules decide, Claude writes, a person signs. October 2026.",
     links: [
-      { label: "winners list", href: "https://www.1asig.ro/NEXXT-AI-Summit-2026-de-la-experiment-la-valoare-de-business-Cum-schimba-AI-procesele-deciziile-si-relatia-cu-clientii-articol-100-75367.htm" },
+      { label: "Forbes", href: "https://www.forbes.ro/nexxt-ai-summit-a-pus-accentul-pe-trecerea-inteligentei-artificiale-de-la-experiment-la-rezultate-de-business-529093" },
       { label: "how we built it", href: "https://github.com/dulgherustefan/VersoML/tree/main/docs" },
-      { label: "hackathon", href: "https://nexxtsummit.com/hackathon" },
+      { label: "winners list", href: "https://www.1asig.ro/NEXXT-AI-Summit-2026-de-la-experiment-la-valoare-de-business-Cum-schimba-AI-procesele-deciziile-si-relatia-cu-clientii-articol-100-75367.htm" },
     ],
   },
   {
