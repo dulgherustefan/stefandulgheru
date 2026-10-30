@@ -43,10 +43,21 @@ export const work = [
     name: "Ping Up",
     stat: "Beta",
     sub: "Android",
-    desc: "Android app for texting friends and calling for help at festivals when the mobile network goes down. Messages hop from phone to phone over Bluetooth, without internet or an account, and stay end-to-end encrypted. My idea; I built a large part of it with team Downtown Fitness. It won VNU Hack 2026, and we presented it on stage at How to Web.",
+    desc: "Android app for texting friends and calling for help at festivals when the mobile network goes down. Messages hop from phone to phone over Bluetooth, without internet or an account, and stay end-to-end encrypted. My idea; I built a large part of it with team San Francisco. It won VNU Hack 2026, and we presented it on stage at How to Web.",
     links: [
       { label: "ping-up.org", href: "https://ping-up.org" },
       { label: "code", href: "https://github.com/dulgherustefan/PingUp" },
+    ],
+  },
+  {
+    id: "versoml",
+    name: "VersoML",
+    stat: "Showcase",
+    sub: "NEXXT 2026",
+    desc: "Bank-side AI agent for disputed card payments, built after a new EU court ruling made banks refund fraud by the next business day. It seals the evidence, drafts the chargeback and the customer letter, and flags the fraudster to anti-money-laundering. LangGraph, Claude on Bedrock and five ML models of our own; built in 24 hours with team San Francisco.",
+    links: [
+      { label: "versoml.vercel.app", href: "https://versoml.vercel.app" },
+      { label: "code", href: "https://github.com/dulgherustefan/VersoML" },
     ],
   },
   {
@@ -80,6 +91,19 @@ export const competitions = [
     links: [{ label: "national results", href: "https://olimpiada-ai.ro/ro/rezultate/nationala" }],
   },
   {
+    id: "nexxt-2026",
+    name: "NEXXT AI Summit · VibeHack",
+    stat: "1st",
+    sub: "Raiffeisen track",
+    medal: "gold",
+    desc: "24-hour AI hackathon, 64 teams. Won Raiffeisen Bank's AI for Operational Efficiency track with VersoML, an agent for disputed card payments: fixed rules decide, Claude writes, a person signs. October 2026.",
+    links: [
+      { label: "winners list", href: "https://www.1asig.ro/NEXXT-AI-Summit-2026-de-la-experiment-la-valoare-de-business-Cum-schimba-AI-procesele-deciziile-si-relatia-cu-clientii-articol-100-75367.htm" },
+      { label: "how we built it", href: "https://github.com/dulgherustefan/VersoML/tree/main/docs" },
+      { label: "hackathon", href: "https://nexxtsummit.com/hackathon" },
+    ],
+  },
+  {
     id: "kaggriculture",
     name: "Kaggle · Kaggriculture",
     stat: "306th",
@@ -87,6 +111,30 @@ export const competitions = [
     medal: "silver",
     desc: "Kaggle simulation competition: build an AI agent that runs a virtual farm, trades in a changing economy and plays head-to-head against other teams' agents. Team Hello San Francisco, 2026.",
     links: [{ label: "leaderboard", href: "https://www.kaggle.com/competitions/kaggriculture/leaderboard" }],
+  },
+  {
+    id: "vnu-hack-2026",
+    name: "VNU Hack · Connect the Dots",
+    stat: "1st",
+    sub: "of ~40 teams",
+    medal: "gold",
+    desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
+    links: [
+      { label: "ping-up.org", href: "https://ping-up.org" },
+      { label: "code", href: "https://github.com/dulgherustefan/PingUp" },
+    ],
+  },
+  {
+    id: "orbit-wars",
+    name: "Kaggle · Orbit Wars",
+    stat: "288th",
+    sub: "of 4,730",
+    medal: "bronze",
+    desc: "Kaggle simulation competition: program a bot for a real-time strategy game where fleets capture planets orbiting a sun, ranked on a ladder of live 1v1 and 4-player matches. Built a tensorized planner, tuned on real ladder losses instead of self-play.",
+    links: [
+      { label: "leaderboard", href: "https://www.kaggle.com/competitions/orbit-wars/leaderboard" },
+      { label: "code", href: "https://github.com/dulgherustefan/Orbit-Wars" },
+    ],
   },
   {
     id: "roai",
@@ -102,15 +150,16 @@ export const competitions = [
     ],
   },
   {
-    id: "vnu-hack-2026",
-    name: "VNU Hack · Connect the Dots",
-    stat: "1st",
-    sub: "of ~40 teams",
-    medal: "gold",
-    desc: "24-hour hackathon for high-school students at Tudor Vianu, October 2026. Won first place with team Downtown Fitness and Ping Up, an offline Bluetooth messenger for festivals.",
+    id: "cgame",
+    name: "CGame · poveste și provocare",
+    stat: "Mention",
+    sub: "'25 & '26",
+    desc: "National programming contest from ITLevel and Tudor Vianu National Informatics College: build a game in C++ or Python from a given story, then finish it live in a timed national round. Special mention in both the 2025 and 2026 editions.",
     links: [
-      { label: "ping-up.org", href: "https://ping-up.org" },
-      { label: "code", href: "https://github.com/dulgherustefan/PingUp" },
+      {
+        label: "national results (liceu)",
+        href: "https://www.itlevel.ro/wp-content/uploads/2026/01/Etapa-Nationala-Liceu.pdf",
+      },
     ],
   },
   {
@@ -127,18 +176,6 @@ export const competitions = [
     ],
   },
   {
-    id: "orbit-wars",
-    name: "Kaggle · Orbit Wars",
-    stat: "288th",
-    sub: "of 4,730",
-    medal: "bronze",
-    desc: "Kaggle simulation competition: program a bot for a real-time strategy game where fleets capture planets orbiting a sun, ranked on a ladder of live 1v1 and 4-player matches. Built a tensorized planner, tuned on real ladder losses instead of self-play.",
-    links: [
-      { label: "leaderboard", href: "https://www.kaggle.com/competitions/orbit-wars/leaderboard" },
-      { label: "code", href: "https://github.com/dulgherustefan/Orbit-Wars" },
-    ],
-  },
-  {
     id: "neurogolf-2026",
     name: "Kaggle · NeuroGolf Championship",
     stat: "727th",
@@ -147,20 +184,6 @@ export const competitions = [
     links: [
       { label: "leaderboard", href: "https://www.kaggle.com/competitions/neurogolf-2026/leaderboard" },
       { label: "code", href: "https://github.com/dulgherustefan/neurogolf-2026" },
-    ],
-  },
-  {
-    id: "rogii-wellbore",
-    name: "Kaggle · ROGII Wellbore Geology",
-    stat: "2,231st",
-    sub: "of 6,125",
-    desc: "Kaggle competition predicting the rock a well drills through from its sensor logs, the kind of model used to automate oil-and-gas drilling. Team Silicon Valley, 2026.",
-    links: [
-      {
-        label: "leaderboard",
-        href: "https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction/leaderboard",
-      },
-      { label: "code", href: "https://github.com/dulgherustefan/rogii-wellbore-geology-prediction" },
     ],
   },
   {
@@ -190,16 +213,17 @@ export const competitions = [
     ],
   },
   {
-    id: "cgame",
-    name: "CGame · poveste și provocare",
-    stat: "Mention",
-    sub: "'25 & '26",
-    desc: "National programming contest from ITLevel and Tudor Vianu National Informatics College: build a game in C++ or Python from a given story, then finish it live in a timed national round. Special mention in both the 2025 and 2026 editions.",
+    id: "rogii-wellbore",
+    name: "Kaggle · ROGII Wellbore Geology",
+    stat: "2,231st",
+    sub: "of 6,125",
+    desc: "Kaggle competition predicting the rock a well drills through from its sensor logs, the kind of model used to automate oil-and-gas drilling. Team Silicon Valley, 2026.",
     links: [
       {
-        label: "national results (liceu)",
-        href: "https://www.itlevel.ro/wp-content/uploads/2026/01/Etapa-Nationala-Liceu.pdf",
+        label: "leaderboard",
+        href: "https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction/leaderboard",
       },
+      { label: "code", href: "https://github.com/dulgherustefan/rogii-wellbore-geology-prediction" },
     ],
   },
 ];
@@ -220,6 +244,17 @@ export const community = [
     sub: "Ping Up",
     desc: "Startup and tech conference in Bucharest, with 3,000+ attendees and speakers from OpenAI, Meta, Google and Stripe. Invited with my team to present Ping Up, our offline messenger for festivals, on stage. October 2026.",
     links: [{ label: "2026 agenda", href: "https://www.howtoweb.co/agenda-2026/" }],
+  },
+  {
+    id: "cem-2026",
+    name: "CEM 2026 · International Workshop of Electromagnetic Compatibility",
+    stat: "Speaker",
+    sub: "Ping Up",
+    desc: "15th edition of the international electromagnetic-compatibility workshop, run by the ICPE-CA national research institute with POLITEHNICA Bucharest. Presented Ping Up, our offline Bluetooth messenger for festivals, with team San Francisco: once in the main scientific session and again in the young researchers' session. October 2026.",
+    links: [
+      { label: "final programme", href: "https://www.icpe-ca.ro/wp-content/uploads/2026/10/CEM-2026-Final-Programme.pdf" },
+      { label: "workshop site", href: "https://www.icpe-ca.ro/cem-2026/?lang=en" },
+    ],
   },
   {
     id: "cyber-q-stack",
