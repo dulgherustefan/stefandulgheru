@@ -175,17 +175,6 @@ export const competitions = [
     ],
   },
   {
-    id: "neurogolf-2026",
-    name: "Kaggle · NeuroGolf Championship",
-    stat: "727th",
-    sub: "of ~2,960",
-    desc: "Kaggle competition to build the smallest neural network that still solves ARC-AGI reasoning tasks, trading parameter count for accuracy. Team San Francisco, 2026.",
-    links: [
-      { label: "leaderboard", href: "https://www.kaggle.com/competitions/neurogolf-2026/leaderboard" },
-      { label: "code", href: "https://github.com/dulgherustefan/neurogolf-2026" },
-    ],
-  },
-  {
     id: "acadnet-10",
     name: "AcadNet · Olimpiada de Informatică Aplicată",
     stat: "County",
@@ -209,20 +198,6 @@ export const competitions = [
         label: "county results",
         href: "https://drive.google.com/file/d/1xZZA-Pe5C7BoHqpZcmkbJEUbIsF6sXWU/view?usp=sharing",
       },
-    ],
-  },
-  {
-    id: "rogii-wellbore",
-    name: "Kaggle · ROGII Wellbore Geology",
-    stat: "2,231st",
-    sub: "of 6,125",
-    desc: "Kaggle competition predicting the rock a well drills through from its sensor logs, the kind of model used to automate oil-and-gas drilling. Team Silicon Valley, 2026.",
-    links: [
-      {
-        label: "leaderboard",
-        href: "https://www.kaggle.com/competitions/rogii-wellbore-geology-prediction/leaderboard",
-      },
-      { label: "code", href: "https://github.com/dulgherustefan/rogii-wellbore-geology-prediction" },
     ],
   },
 ];
